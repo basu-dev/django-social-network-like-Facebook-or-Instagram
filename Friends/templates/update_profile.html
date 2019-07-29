@@ -1,0 +1,69 @@
+{% extends 'base_view/root.html' %}
+{%block chatroom %}
+
+{% for friend in friend_list %}
+<a href='/messages/{{friend.id}}/'>
+<div class='card mt-1' style='display:block;'>
+    <div class='h6 card-title m-1'>
+        <img class='rounded-circle ml-0' height= 30 width=30 src='{{friend.profile.profile_picture.url}}'> {{friend.first_name}} {{friend.last_name}}
+
+</div>
+</div>
+</a>
+{%endfor%}
+
+{%endblock%}
+
+
+
+{%block storyline %}
+
+{%endblock%}
+
+
+{% block messageroom%}
+<div class='card mb-1'>
+    <div class="card-title h5 ">Requests Pending</div>
+</div>
+{%if request_sender%}
+{%for i in request_sender%}
+<div class='card'>
+    {%if i.profile.profile_picture%}
+   <a href='/profile/{{i.username}}/' style="text-decoration: none;"> <img class='rounded-circle' height=40 width=40 src='{{i.profile.profile_picture.url}}' alt='{{i.username}}'></a>
+    {%endif%}
+    <a href='/profile/{{i.username}}/' style="text-decoration: none;"><div class="card-title">{{i.first_name}} {{i.last_name}}</div><a href='/profile/{{i.username}}/' style="text-decoration: none;"></a>
+<div class="btn-group">
+    <form  action='/profile/accept/{{i.id}}/' method='POST'>
+    <button class='btn btn-primary btn-sm' type='submit'>Accept</button>
+    {%csrf_token%}
+    </form>
+    <form action='/profile/deny/{{i.id}}/' method='POST'>
+    <button class='ml-2 btn btn-primary btn-sm' type='submit'>Deny</button>
+    {%csrf_token%}
+    </form>
+</div>
+</div>
+{%endfor%}
+{%else%}
+    <div class="card-title ml-2"><h6 class='h6'>No Pending Requests</h5></div>
+{%endif%}
+<div class='card'>
+    <div class="h5 class-title">Friend Suggestion</div>
+</div>
+{% for suggestion in friend_suggestion %}
+<div class='card mt-1 text-center'  style='display:block'>
+        <a href='/profile/{{suggestion.username}}/' style="text-decoration: none;"><img class='rounded-circle mt-2' height=60 width="60" src='{{suggestion.profile.profile_picture.url}}'></a>
+    <div class="card-body">
+            <div class="card-title"><a href='/profile/{{suggestion.username}}/' style="text-decoration: none;">{{suggestion.first_name}} {{suggestion.last_name}}</a>
+                <p> {{suggestion.mutual}} mutual friends</p>
+                    <form action='/profile/send_request/{{suggestion.id}}/' method='POST'>
+                        <button  type='submit' class='btn btn-primary btn-sm'>Connect</button>
+                        {%csrf_token%}
+                    </form>
+            </div>
+        </div>
+    
+</div>
+{%endfor%}
+</div>
+{%endblock%}

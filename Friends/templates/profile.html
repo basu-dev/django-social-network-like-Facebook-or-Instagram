@@ -1,0 +1,221 @@
+{% extends 'base_view/root.html' %}
+{%block chatroom %}
+
+{% for friend in friend_list %}
+<a href='/messages/{{friend.id}}/'>
+<div class='card mt-1 ml-1' style='display:block;'>
+    <div class='h6 card-title m-1'>
+        <img class='rounded-circle ml-0' height= 30 width=30 src='{{friend.profile.profile_picture.url}}'> {{friend.first_name}} {{friend.last_name}}
+</div>
+</div>
+</a>
+{%endfor%}
+{%endblock%}
+{%block storyline %}
+<!-- UPDATE PROFILE HIDDEN -->
+<div class='card ' id='update_profile' style='display:none'>
+    <div class='form-control  text-center'><b>Update Your Profile</b></div>
+<form method='POST' action='/profile/update_profile/'>
+   <table>
+       <tr>
+           <th>First Name</th>
+           <th><input type='text'class='form-control' name='first_name'></th>
+       </tr>
+       <tr>
+            <th>Last Name</th>
+            <th><input type='text' class='form-control' name='last_name'></th>
+        </tr>
+        <tr>
+                <th>Age</th>
+                <th><input type='number' class='form-control' min="0" name='age'></th>
+            </tr>
+            <tr>
+                    <th>Job</th>
+                    <th><input type='text' class='form-control' name='job'></th>
+                </tr>
+                <tr>
+                        <th>Address</th>
+                        <th><input type='text' class='form-control' name='address'></th>
+                    </tr>
+                    <tr>
+                            <th>Contact No.</th>
+                            <th> <input type='text' class='form-control' name='contact_no'></th>
+                        </tr>
+                        </table>
+                <textarea class='textarea_proflie form-control'name='bio' placeholder="Update Your Bio Here!!!" col=4></textarea>
+                <button class='comment' type=submit >Update</button>
+                {%csrf_token%}
+</form>
+<button id='cancel_btn' class= 'delete'>Cancel</button>
+</div>
+<!-- MY PROFILE -->
+<div class='card text-center' id='my_profile'>
+    <div class="h4 card-title">{{request.user.first_name}}</div>
+    <div class="card-body">
+        <img id='profile_picture' class='rounded-circle' height=150 width=150 src='{{request.user.profile.profile_picture.url}}'>
+        <form  id='ppform' style='display:none' method='POST' action='/update_pp/' enctype="multipart/form-data">
+            <input type='file' class='form-contro   ' name='photo' >
+            <button class='btn btn-sm comment form-control ' type="submit">Change Picture</button>
+            {%csrf_token%}
+        </form>
+    </div>
+    <div class="card-title">
+        {{request.user.username}}
+    </div>
+    <div class="card-text">
+       <b>{{request.user.first_name}} {{request.user.last_name}}</b> <br>
+        working as <b>{{request.user.profile.job}}.</b><br>
+        lives in <b>{{request.user.profile.address}}.</b><br>
+        <b>{{request.user.profile.age}}.</b> years old.<br>
+        contact no: <b>{{request.user.profile.contack_no}}.</b><br>
+        <button class='btn btn-sm form-control comment ' id='update_profile_btn'>Update Profile</button>
+        <div class='card'>
+            <div class=" h6 card-title">Bio:</div>
+            <div class="card-text">{{request.user.profile.bio}}</div>
+        </div>
+        <div class='card'  style='background-color:#edf0f5'>
+            <div class=" h5 card title" style='height:30px'>Share Your Story</div>
+            <div class="card-body">
+                <form method='POST' action='/profile/my_profile/'>
+                <textarea  name='add_story' class=' textarea_profile story ml-2 mt-1 mb-2 mr-2' cols=55 rows=3 placeholder='It was a wonderful day today!!' style='border-radius:5px'></textarea>
+                <button class='btn btn-primary btn-sm' type='submit'>Share</button>
+                {%csrf_token%}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class='card'>
+    <div class="h4 card-title">Stories</div>
+</div>
+<!-- Stories -->
+{%for story in stories%}
+<div class='card mb-2 fordelete_{{story.id}}' id={{story_id}}>
+    <div class = 'card-body'>
+       <div class='card-title'>
+            <img class ='rounded-circle mr-1 ml-2' height=30 width = 30  src='{{story.user.profile.profile_picture.url}}'><a href='/profile/{{story.user.username}}/'><i><b>{{story.user.first_name}} {{story.user.last_name}}</b></i> </a> added a post at {{story.date}}
+       </div>
+       <div class = 'card-text text-justify'>
+           {{story.body}}
+       </div>
+    </div>
+    <!-- LIKE-COUNT -->
+    <div class='ml-2'>
+        <div class ='ml-2 {{story.id}}_likey'>{{story.like.count}} Likes</div>
+        <div class='like_show{{story.id}} ml-2'></div>
+    </div>
+    <div class="btn-group">
+        <!-- LIKE-=FORM -->
+    <form method='POST' id='{{story.id}}' class='form-inline likeform' action='/stories/like/{{story.id}}/'>
+        <input type='hidden' name='redirect_to' value='/profile/'>
+        <button type ='submit' id='{{story.id}}btn' class= 'btn-sm form-control like ml-3 mb-0' >Like</button>
+        {%csrf_token%}
+    </form>
+    <!-- DELETEFORM -->
+    <form method='POST' id='{{story.id}}' class='form-inline delete_form' action='/profile/delete/{{story.id}}/'>
+        <button type ='submit' class='btn btn-sm delete form-control ml-3 mb-0'>Delete</button>
+    {%csrf_token%}
+    </form>
+    </div>
+    <!-- COMMENT FORM -->
+    <form method='POST' class='form-inline comment_form'  id='{{story.id}}' action='/stories/comment/{{story.id}}/'>
+        <textarea  id='comment_{{story.id}}' name='comment' class='commentarea form-control mt-1 ml-3 mr-4 mb-0' cols=79 rows=1 style='border-radius:20px; border'></textarea>
+        <button type ='submit' class='btn  btn-sm comment form-control ml-auto mr-4 mb-1 mt-1'>Comment</button>
+    {%csrf_token%}
+</form>
+<!-- COMMENTS SECTION -->
+<div style="overflow-y:scroll;height:auto;">
+        <div class="card" id='commentupdate_{{story.id}}'></div>
+        {% for comment in story.comment %}
+               <div class='card' >
+                   <div class='media'>
+                    <img class ='rounded-circle mt-2 ml-2' height=30 width = 30  src='{{comment.user.profile.profile_picture.url}}'>
+                    <p class='mt-0 mt-2'><b>{{comment.user}}</b> <span>{{comment.body}}</span> </p>
+            </div>
+               {%endfor%}
+               </div>
+</div>
+{%endfor%}
+{%endblock%}
+<!-- MESSAGE SECTION -->
+{% block messageroom%}
+<div class='card mb-1'>
+    <div class="card-title h5 ">Requests Pending</div>
+</div>
+{%if request_sender%}
+{%for i in request_sender%}
+<div class='card'>
+    {%if i.profile.profile_picture%}
+   <a href='/profile/{{i.username}}/' style="text-decoration: none;"> <img class='rounded-circle' height=40 width=40 src='{{i.profile.profile_picture.url}}' alt='{{i.username}}'></a>
+    {%endif%}
+    <a href='/profile/{{i.username}}/' style="text-decoration: none;"><div class="card-title">{{i.first_name}} {{i.last_name}}</div><a href='/profile/{{i.username}}/' style="text-decoration: none;"></a>
+<div class="btn-group">
+    <form  action='/profile/accept/{{i.id}}/' method='POST'>
+    <button class='btn btn-primary btn-sm' type='submit'>Accept</button>
+    {%csrf_token%}
+    </form>
+    <form action='/profile/deny/{{i.id}}/' method='POST'>
+    <button class='ml-2 btn btn-primary btn-sm' type='submit'>Deny</button>
+    {%csrf_token%}
+    </form>
+</div>
+</div>
+{%endfor%}
+{%else%}
+    <div class="card-title ml-2"><h6 class='h6'>No Pending Requests</h5></div>
+{%endif%}
+<div class='card'>
+    <div class="h5 class-title">Friend Suggestion</div>
+</div>
+{% for suggestion in friend_suggestion %}
+<div class='card mt-1 text-center'  style='display:block'>
+        <a href='/profile/{{suggestion.username}}/' style="text-decoration: none;"><img class='rounded-circle mt-2' height=60 width="60" src='{{suggestion.profile.profile_picture.url}}'></a>
+    <div class="card-body">
+            <div class="card-title"><a href='/profile/{{suggestion.username}}/' style="text-decoration: none;">{{suggestion.first_name}} {{suggestion.last_name}}</a>
+                <p> {{suggestion.mutual}} mutual friends</p>
+                    <form action='/profile/send_request/{{suggestion.id}}/' method='POST'>
+                        <button  type='submit' class='btn btn-primary btn-sm'>Connect</button>
+                        {%csrf_token%}
+                    </form>
+            </div>
+        </div>
+</div>
+{%endfor%}
+</div>
+<script src='/static/js/jquery.js'></script>
+    <script src='/static/js/bootstrap.min.js'></script>
+{%endblock%}
+{%block script%}
+<script>
+    $(document).ready(function(){
+        $('.delete_form').submit(function(e){
+            e.preventDefault();
+            var id=$(this).attr('id');
+            $.ajax({
+                url:"/profile/api/delete_story/"+id+"/",
+                type:'POST',
+                data:{
+                    csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val(),
+                },
+                success:function(data){
+                    if(data.success=='successful'){
+                        $(".fordelete_"+id).remove();
+                    }
+                }
+            })
+        })
+        $('#profile_picture').click(function(e){
+            document.getElementById('ppform').style.display='block';
+        })
+        $('#update_profile_btn').click(function(){
+            document.getElementById('update_profile').style.display='block';
+            document.getElementById('my_profile').style.display='none';
+        })
+        $('#cancel_btn').click(function(){
+            document.getElementById('update_profile').style.display='none';
+            document.getElementById('my_profile').style.display='block';
+        })
+    })
+</script>
+{%endblock%}
+

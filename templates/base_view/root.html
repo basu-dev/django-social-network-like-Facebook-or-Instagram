@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{page_title}}</title>
+    <link rel='stylesheet' href='/static/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='/static/css/custom_css.css'>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+</head>
+<body style='background-color:rgb(232, 237, 247)'>
+    <audio id='audio' src='http://127.0.0.1:8000/storage/message_notify.mp3'></audio>
+    <nav class="navbar navbar-expand-lg  fixed-top" style='height:7vh;background-color:rgb(225, 227, 236);'>
+        <a class="navbar-brand" href="/">Raven</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+              <li class="nav-item ml-3">
+                  <a class="nav-link mt-1" href="/profile/my_profile/"><img class ='rounded-circle' height=32 width = 32  src='{{request.user.profile.profile_picture.url}}'></a>
+                </li>
+            <li class="nav-item ml-3">
+              <a class="nav-link mt-1" href="/">Storyline</a>
+            </li>
+            
+            <li class="nav-item dropdown ml-3">
+              
+              <a class="nav-link mt-1" name='Notification' href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="glyphicon glyphicon-bell">Notification</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% if request.notification %}
+                {% for notification in request.notification %}
+                <a class="dropdown-item" href="{{notification.url}}">{{notification.body}}</a>
+                <div class="dropdown-divider"></div>
+                {%endfor%}
+                {%else%}
+                
+                no notification
+                {%endif%}    
+            </li>
+            <form method='GET' action='/search/'>
+            <li class='nav-item'>
+              <div class='btn-group'>
+                  
+                <input  name='search_query' class='ml-5 nav-link mt-2' type="search" placeholder="Search" aria-label="Search" style='border:2px solid white;border-radius:25px;position:relative;height:6vh;width:25vw;' >
+                <a class='nav-link'><button id='search'style='display:none;' class='btn btn-info'>Search</button></a>
+              </div>
+           
+          
+          </form>
+          </ul>
+         
+        </div>
+        <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <form method='POST' action='/logout/'>
+              {%csrf_token%}
+                <button type='submit' class="btn btn-link nav-link">Logout</button>
+            </form>
+      </li>
+      </li>
+      </nav><br><br>
+    
+  
+        <div class='row'>
+          
+            <div class='col-lg-3 col-sm-2 col-xs-0 ' style='background-color:rgba(255,255,255,.4);height:89vh'>
+              <div class="card h5 col-lg-ml-1"style='color:rgb(66,139,202)'>Friends</div>
+                
+              {% block chatroom %}
+                {%endblock%}
+            </div>
+            
+            <div class='col-lg-5 col-sm-7 col-xs-12' style="overflow-y:scroll;height:89vh;overflow-x:hidden">
+            
+                {% block storyline%}
+                
+                {%endblock%}
+            </div>
+            <div class='col-lg-4 col-sm-3 col-xs-0 ' style='overflow-y:scroll;height:89vh;overflow-x:hidden'>
+                {% block messageroom%}
+                {%endblock%}
+            </div>
+        
+    </div>
+    <script src='/static/js/jquery.js'></script>
+    <script src='/static/js/bootstrap.min.js'></script>
+    
+    <script>
+        $(document).ready(function(){
+            $('.likeform').click(function(){
+                event.preventDefault();
+                id=$(this).attr('id');
+                $.ajax({
+                    url:'/api/like/'+id+'/',
+                    type:'POST',
+                    data:{csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val()},
+                    success:function(data){
+                    if (data.truth=='True'){
+                        updated_count=data.count;   
+                        $('.'+id+'_likey').remove();
+                        $('.like_show'+id).html(updated_count+' Likes').show();
+                        $('#'+id+'btn').html(data.is_liked);
+                        }
+                    else if(data.truth=='False'){  
+                        updated_count=data.count;
+                        $('.'+id+'_likey').remove();
+                        $('.like_show'+id).html(updated_count+' Likes').show();
+                        $('#'+id+'btn').html(data.is_liked)
+                        $('#'+id+'btn').css('border')
+                    }    
+                    },
+
+                });
+            });
+        });
+
+    </script>
+    <script>
+      $(document).ready(function(){
+        $(".comment_form").submit(function(e){
+          e.preventDefault();
+          var id=$(this).attr("id");
+          var comment=$("#comment_"+id).val();
+          $.ajax({
+            type:'POST',
+            url:'/api/stories/comment/'+id+'/',
+            data:{
+              csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val(),
+              comment:comment,
+
+            },
+            success:function(data){
+              var p=document.createElement("p");
+              var b=document.createElement("h6");
+              var diva=document.createElement("div");
+              var image=document.createElement("img");
+              image.src=data.profile_picture;
+              image.height=30;
+              image.width=30;
+              image.className="rounded-circle";
+              diva.className="card";
+              p.innerHTML=data.comment;
+              b.innerHTML=data.user;
+              diva.appendChild(image);
+              diva.appendChild(b);
+              diva.appendChild(p);
+              document.getElementById("commentupdate_"+id).appendChild(diva);
+              $("#commentupdate_"+id).prepend(diva);
+            document.getElementById("comment_"+id).value="";
+
+            }
+          })
+        })
+      })
+    </script>
+  {% block script%}
+  {%endblock%}
+
+</body>
+</html>

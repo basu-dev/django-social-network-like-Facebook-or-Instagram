@@ -1,0 +1,87 @@
+.like{
+    border-radius:30%;
+    border-color:rgb(24,240,240)
+}
+.like:hover {opacity:1;
+    background-color:rgb(245, 223, 238);
+     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 2px 6px 0 rgba(0, 0, 0, 0.19);
+     border-color:rgb(238, 103, 215)
+}
+.comment{
+    border-radius:6px;
+    border-width:2px;
+    border-color:rgb(24,240,240);
+    background-color:rgb(244, 244, 244);
+}
+.comment:hover {
+    opacity:1;
+    background-color:rgb(214, 219, 224);
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 2px 6px 0 rgba(0, 0, 0, 0.19);
+    border-color:rgb(21, 111, 196)
+     
+}
+.textarea_profile{
+    position:relative;
+    width:100%;
+}
+.delete{
+    border-radius:20%;
+    border-color:rgb(209, 55, 44)
+}
+.delete:hover {opacity:1;
+    background-color:rgb(228, 178, 182);
+     box-shadow: 0 2px 6px 0 rgba(196, 63, 63, 0.2), 0 2px 6px 0 rgba(207, 100, 100, 0.19);
+     border-color:rgb(214, 69, 69)
+}
+textarea:hover{
+    box-shadow: 0 2px 6px 0 rgba(100, 92, 92, 0.2), 0 2px 6px 0 rgba(41, 37, 37, 0.19);
+    
+ 
+}
+.card{
+    border-color:rgb(230,230,230);
+    border-radius:10px;
+    transition: outline .3s linear;
+    
+   
+}
+.card:hover{
+
+box-shadow: 0 2px 6px 0 rgba(100, 92, 92, 0.2), 0 2px 6px 0 rgba(41, 37, 37, 0.19); 
+}
+.messagetoggle{
+    border: solid;  
+    height:5vh;
+    width:100%;
+    text-align-left:40%;
+    border-color:rgba(140, 178, 209, 0.3);
+    background-color:rgb(231, 235, 255);
+    border-radius:5px;
+    transition: outline .1s linear;
+   
+}
+.messagetoggle:hover{
+    border-width: 3px;
+    border-color:rgba(82, 156, 216, 0.541);
+    box-shadow: 0 2px 6px 0 rgba(100, 92, 92, 0.2), 0 2px 6px 0 rgba(41, 37, 37, 0.19);
+};
+a{
+    text-decoration:none;
+}
+a:hover
+  {
+    color:rgb(15, 34, 143);
+    text-decoration:none !important;
+    cursor:pointer;
+   }
+   @media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+    #search{
+        display:block;
+        background-color:rgb(99, 118, 226);
+        border-color:white;
+
+    }
+    
+}

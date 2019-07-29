@@ -1,0 +1,179 @@
+{% extends 'base_view/root.html' %}
+{%block chatroom %}
+
+{% for friend in friend_list %}
+<a href='/messages/{{friend.id}}/'>
+    <div class='card mt-1' style='display:block;'>
+        <div class='h6 card-title m-1'>
+            <img class='rounded-circle ml-0' height= 30 width=30 src='{{friend.profile.profile_picture.url}}'> {{friend.first_name}} {{friend.last_name}}
+    </div>
+    </div>
+    </a>
+{%endfor%}
+{%endblock%}
+{%block storyline %}
+{%for story in stories%}
+<div class='card mb-2'>
+    <div class = 'card-body'>
+       <div class='card-title'>
+            <img class ='rounded-circle mr-1 ml-2' height=30 width = 30  src='{{story.user.profile.profile_picture.url}}'><a href='/profile/{{story.user.username}}/' style="text-decoration: none;"><i><b>{{story.user.first_name}} {{story.user.last_name}}</b></i> </a> added a post at {{story.date}}
+       </div> 
+       <div class = 'card-text'>
+           {{story.body}}
+       </div>
+       
+    </div>
+    <!-- LIKE COUNT -->
+    <div class='ml-2'>
+            <div class ='ml-2 {{story.id}}_likey'>{{story.like.count}} Likes</div>
+            <div class='like_show{{story.id}} ml-2'></div>
+        </div>
+        <form method='POST' id='{{story.id}}' class='form-inline likeform' action='/stories/like/{{story.id}}/'>
+            <input type='hidden' name='redirect_to' value='/profile/'>
+            <button type ='submit' id='{{story.id}}btn' class= 'btn-sm form-control like ml-3 mb-0' >Like</button>
+                        {%csrf_token%}
+        </form>
+        <form method='POST' class='form-inline comment_form'  id='{{story.id}}' action='/stories/comment/{{story.id}}/'>
+            <textarea  id='comment_{{story.id}}' name='comment' class='commentarea form-control mt-1 ml-3 mr-4 mb-0' cols=79 rows=1 style='border-radius:20px; border'></textarea>
+            <button type ='submit' class='btn  btn-sm comment form-control ml-auto mr-4 mb-1 mt-1'>Comment</button>    
+    {%csrf_token%}
+</form>
+<div class="card" id='commentupdate_{{story.id}}'></div>
+  {%if story.comment%}
+  <div style="overflow-y:scroll;height:20vh;">
+        {% for comment in story.comment %}
+        
+            
+        
+               <div class='card' >
+                   <div class='media'>
+                    <img class ='rounded-circle mt-2 ml-2' height=30 width = 30  src='{{comment.user.profile.profile_picture.url}}'>
+                
+                    <p class='mt-0 mt-2'><b>{{comment.user}}</b> <span>{{comment.body}}</span> </p>
+                  
+              
+            </div>
+            </div>
+            
+               {%endfor%}
+               </div>
+               {%endif%}
+               
+
+
+
+</div>
+{%endfor%}
+{%endblock%}
+
+
+{% block messageroom%}
+<button data-toggle='collapse' class='messagetoggle' data-target='#messagebox'>Messege</button>
+<div id='messagebox' val="{{receiver.id}}">
+    <div class='card' style='background-color:#d5dfe0'>
+        <div class='card' style='background-color:rgb(126, 168, 231)'>
+            <div class='h5 card-title mt-1 mb-1' style='color:rgb(220,220,220)'>
+               <a href='/profile/{{receiver.username}}/' style="text-decoration: none;"> <img class='rounded-circle' height=33 width=33 src='{{receiver.profile.profile_picture.url}}'>
+                {{receiver.first_name}} {{receiver.last_name}}</a>
+            </div>
+        </div>
+                <div class='card-body' id="scrollanimate" style='height:66vh;overflow-y:scroll;overflow-x:hidden'>
+                        {%for message in messages%}
+                        
+                        <div class='card-text'>
+                            {% if request.user.id is message.receiver%}
+                            <img class ='rounded-circle' height=30 width = 30  src='{{receiver.profile.profile_picture.url}}'>  <div class='alert alert-primary mr-auto'>{{message.body}}</div>
+                            {%else%}
+                            <img class ='rounded-circle' height=30 width = 30  src='{{request.user.profile.profile_picture.url}}'><div class='alert alert-success ml-auto'>{{message.body}}</div>
+                            
+                            {%endif%}
+                        </div><br>
+                        {%endfor%}
+                        <div id="mymessage_update"></div>
+                </div>
+                <form class='form' action='/messages/{{receiver.id}}/' method='POST' id='message_form'>
+                    <textarea id='textarea' name='message' class='mt-auto' cols=36 rows=1 style="border-radius:20px" ></textarea>
+                    <button type='submit' class='btn btn-success btn-sm'>Send</button>
+                {%csrf_token%}
+            </form>
+            </div>   
+    </div> 
+{%endblock%}
+{%block script%}
+<script>
+    $("#scrollanimate").stop().animate({ scrollTop: $("#scrollanimate")[0].scrollHeight})
+        var id=$('#messagebox').attr("val");
+        function send(){
+          var msg=$("#textarea").val();
+          if(msg.length==0 | msg=="\n"){
+              return false;
+          }
+          else{
+          document.getElementById('textarea').value='';
+          $.ajax({
+            type:'POST',
+            url:"/messages/api/"+id+'/',
+            data:{
+              csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val(), 
+               message:msg,
+            },
+            success:function(data){
+              var div=document.createElement("div");
+              var img=document.createElement("img");
+              var div2=document.createElement("div");
+              img.height=30;
+              img.width=30;
+              img.className='rounded-circle';
+              img.src=data.profile_picture;
+              div2.className="alert alert-success ml-auto";
+              div2.innerHTML=data.message;
+              div.appendChild(img);
+              div.appendChild(div2);
+              $("#scrollanimate").stop().animate({ scrollTop: $("#scrollanimate")[0].scrollHeight});
+              $("#mymessage_update").append(div);
+            }
+          })
+        }
+        }
+        $("#message_form").submit(function(e){
+          e.preventDefault();
+          send();
+        })
+        $("#textarea").keyup(function(e){
+          var message=$("#textarea").val();
+          for(i=0;i<message.length;i++){
+            if(message[i]=='\n'){
+              send();
+            }
+          }
+         
+        })
+</script>
+<script>
+        var id=$('#messagebox').attr("val");
+ setInterval(function(){
+            $.ajax({
+                type:'GET',
+                url:'/messages/api/'+id+'/',
+                success:function(data){
+                    var div=document.createElement("div");
+                    var img=document.createElement("img");
+                    var div2=document.createElement("div");
+                    img.height=30;
+                    img.width=30;
+                    $("#audio").trigger('play');
+                    img.className='rounded-circle';
+                    img.src=data.profile_picture;
+                    div2.className="alert alert-primary mr-auto";
+                    div2.innerHTML=data.message;
+                    div.appendChild(img);
+                     div.appendChild(div2);
+                    
+                     
+                    $("#scrollanimate").stop().animate({ scrollTop: $("#scrollanimate")[0].scrollHeight});
+                    $("#mymessage_update").append(div);
+                }
+            })
+          },1000)
+</script>
+{%endblock%}

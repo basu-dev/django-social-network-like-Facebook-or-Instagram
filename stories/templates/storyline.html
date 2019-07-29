@@ -1,0 +1,108 @@
+{% extends 'base_view/root.html' %}
+{%block chatroom %}
+{% for friend in friend_list %}
+<a href='/messages/{{friend.id}}/'>
+    <div class='card mt-1' style='display:block;'>
+        <div class='h6 card-title m-1'>
+            <img class='rounded-circle ml-0' height= 30 width=30 src='{{friend.profile.profile_picture.url}}'> {{friend.first_name}} {{friend.last_name}}
+    
+    </div>
+    </div>
+    </a>
+{%endfor%}
+{%endblock%}
+
+
+
+{%block storyline %}
+<div class='card h5' style='color:rgb(66,139,202)'>Storyline</div>
+{%for story in stories%}
+<div class='card mb-2'>
+    <div class = 'card-body'>
+       <div class='card-title'>
+        <img class ='rounded-circle mr-1 ml-2' height=30 width = 30  src='{{story.user.profile.profile_picture.url}}'><a href='/profile/{{story.user.username}}/'><i><b>{{story.user.first_name}} {{story.user.last_name}}</b></i> </a> added a post at {{story.date}}
+       </div> 
+       <div class = 'card-text'>
+           {{story.body}}
+       </div>
+       
+    </div>
+    <!-- LIKE COUNT -->
+    <div class='ml-2'>
+            <div class ='ml-2 {{story.id}}_likey'>{{story.like.count}} Likes</div>
+            <div class='like_show{{story.id}} ml-2'></div>
+        </div>
+        <form method='POST' id='{{story.id}}' class='form-inline likeform' action='/stories/like/{{story.id}}/'>
+            <input type='hidden' name='redirect_to' value='/profile/'>
+            <button type ='submit' id='{{story.id}}btn' class= 'btn-sm form-control like ml-3 mb-0' >Like</button>
+            {%csrf_token%}
+        </form>
+<form method='POST' class='form-inline comment_form'  id='{{story.id}}' action='/stories/comment/{{story.id}}/'>
+    <textarea  id='comment_{{story.id}}' name='comment' class='commentarea form-control mt-1 ml-3 mr-4 mb-0' cols=79 rows=1 style='border-radius:20px; border'></textarea>
+    <button type ='submit' class='btn  btn-sm comment form-control ml-auto mr-4 mb-1 mt-1'>Comment</button>    
+    {%csrf_token%}
+</form>
+<div style="overflow-y:scroll;height:30vh;">
+<div class="card" id='commentupdate_{{story.id}}'></div>
+{% for comment in story.comment %}
+
+       <div class='card' >
+           <div class='media'>
+            <img class ='rounded-circle mt-2 ml-2' height=30 width = 30  src='{{comment.user.profile.profile_picture.url}}'>
+        
+            <p class='mt-0 mt-2'><b>{{comment.user}}</b> <span>{{comment.body}}</span> </p>
+          
+      
+    </div>
+    </div>
+       {%endfor%}
+       </div>
+
+
+
+</div>
+{%endfor%}
+{%endblock%}
+
+
+{% block messageroom%}
+<button data-toggle='collapse' class='messagetoggle' data-target='#messagebox'>Messege</button>
+
+<div id='messagebox'>
+    <div  class='card'  style='overflow-y:scroll;height:84vh;width:100%'>
+     {%for i in message_body%}
+     {%if i.seen%}
+     <div class="card mt-1 messagebody_update_{{i.user.id}}">
+         <a href='/messages/{{i.link}}'  style='text-decoration: none;'>
+             
+             <div class='card-title'><img class='rounded-circle' src='{{i.user.profile.profile_picture.url}}' height=30 width=30> <span class='h5'>{{i.name}}</span></div>
+            <div class='card-text ml-4 mb-2'><p style='color:rgb(35, 132, 189)'>{{i.get_name}}:<span style='color:black'>{{i.body}}</span></p></div></a>
+             
+         </div>
+       {%else%} 
+       <div class="card mt-1 messagebody_update_{{i.user.id}} " style="background-color:rgb(230,230,230)">
+            <a href='/messages/{{i.link}}'  style='text-decoration: none;'>
+                
+                <div class='card-title'><img class='rounded-circle' src='{{i.user.profile.profile_picture.url}}' height=30 width=30> <span class='h5'>{{i.name}}</span></div>
+               <div class='card-text ml-4 mb-2'><p style='color:rgb(35, 132, 189)'>{{i.get_name}}:<span style='color:black'>{{i.body}}</span></p></div></a>
+                
+            </div>
+            {%endif%}
+        {%endfor%}     
+</div>
+</div>
+
+{%endblock%}
+{%block script%}
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            type:'GET',
+            url:'/api/messagecheck/',
+            success:function(data){
+                alert('fuck');
+            }
+        })
+    })
+</script>
+{%endblock%}

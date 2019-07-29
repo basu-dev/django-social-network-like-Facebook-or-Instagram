@@ -1,0 +1,141 @@
+{% extends 'base_view/root.html' %}
+{%block chatroom %}
+
+{% for friend in friend_list %}
+<a href='/messages/{{friend.id}}/'>
+<div class='card mt-1' style='display:block;'>
+    <div class='h6 card-title m-1'>
+        <img class='rounded-circle ml-0' height= 30 width=30 src='{{friend.profile.profile_picture.url}}'> {{friend.first_name}} {{friend.last_name}}
+
+</div>
+</div>
+</a>
+{%endfor%}
+
+{%endblock%}
+
+
+
+{%block storyline %}
+<div class='card text-center'>
+    <div class="h4 card-title">{{user.first_name}}</div>
+    <div class="card-body">
+        <img class='rounded-circle' height=70 width="70" src='{{user.profile.profile_picture.url}}'>
+    </div>
+    <div class="card-title">
+        {{user.username}}
+    </div>
+    <div class="card-text">
+       <b>{{user.first_name}} {{user.last_name}}</b> <br>
+        working as <b>{{user.profile.job}}.</b><br>
+        lives in <b>{{user.profile.address}}.</b><br>
+        <b>{{user.profile.age}}.</b> years old.<br>
+        
+        <div class='card'>
+            <div class=" h6 card-title">Bio:</div>
+            <div class="card-text">{{user.profile.bio}}</div>
+            
+        </div>
+        
+
+    </div>
+
+</div>
+<div class='card'>
+    <div class="h4 card-title">Stories</div>
+</div>
+{%for story in stories%}
+<div class='card mb-2'>
+    <div class = 'card-body'>
+       <div class='card-title'>
+            <img class ='rounded-circle mr-1 ml-2' height=30 width = 30  src='{{story.user.profile.profile_picture.url}}'><a href='/profile/{{story.user.username}}/' style="text-decoration: none;"><i><b>{{story.user.first_name}} {{story.user.last_name}}</b></i> </a> added a post at {{story.date}}
+       </div> 
+       <div class = 'card-text text-justify'>
+           {{story.body}}
+       </div>
+       
+    <!-- LIKE COUNT -->
+    <div class='ml-2'>
+            <div class ='ml-2 {{story.id}}_likey'>{{story.like.count}} Likes</div>
+            <div class='like_show{{story.id}} ml-2'></div>
+        </div>
+        <form method='POST' id='{{story.id}}' class='form-inline likeform' action='/stories/like/{{story.id}}/'>
+            <input type='hidden' name='redirect_to' value='/profile/'>
+            <button type ='submit' id='{{story.id}}btn' class= 'btn-sm form-control like ml-3 mb-0' >Like</button>            {%csrf_token%}
+        </form>
+    </div>
+    <form method='POST' class='form-inline comment_form'  id='{{story.id}}' action='/stories/comment/{{story.id}}/'>
+        <textarea  id='comment_{{story.id}}' name='comment' class='commentarea form-control mt-1 ml-3 mr-4 mb-0' cols=79 rows=1 style='border-radius:20px; border'></textarea>
+        <button type ='submit' class='btn  btn-sm comment form-control ml-auto mr-4 mb-1 mt-1'>Comment</button>    
+    {%csrf_token%}
+</form>
+<div style="overflow-y:scroll;height:auto;">
+        <div class="card" id='commentupdate_{{story.id}}'></div>
+        {% for comment in story.comment %}
+        
+               <div class='card' >
+                   <div class='media'>
+                    <img class ='rounded-circle mt-2 ml-2' height=30 width = 30  src='{{comment.user.profile.profile_picture.url}}'>
+                
+                    <p class='mt-0 mt-2'><b>{{comment.user}}</b> <span>{{comment.body}}</span> </p>
+                  
+              
+            </div>
+            </div>
+               {%endfor%}
+               </div>
+
+
+
+</div>
+{%endfor%}
+
+{%endblock%}
+
+
+{% block messageroom%}
+<div class='card mb-1'>
+    <div class="card-title h5 ">Requests Pending</div>
+</div>
+{%if request_sender%}
+{%for i in request_sender%}
+<div class='card'>
+    {%if i.profile.profile_picture%}
+    <a href='/profile/{{i.username}}' style="text-decoration: none;"><img class='rounded-circle' height=40 width=40 src='{{i.profile.profile_picture.url}}' alt='{{i.username}}'></a>
+    {%endif%}
+    <div class="card-title"><a href='/profile/{{i.username}}' style="text-decoration: none;">{{i.first_name}} {{i.last_name}}</div></a>
+<div class="btn-group">
+    <form  action='/profile/accept/{{i.id}}/' method='POST'>
+    <button class='btn btn-primary btn-sm' type='submit'>Accept</button>
+    {%csrf_token%}
+    </form>
+    <form action='/profile/deny/{{i.id}}/' method='POST'>
+    <button class='ml-2 btn btn-primary btn-sm' type='submit'>Deny</button>
+    {%csrf_token%}
+    </form>
+</div>
+</div>
+{%endfor%}
+{%else%}
+    <div class="card-title ml-2"><h6 class='h6'>No Pending Requests</h5></div>
+{%endif%}
+<div class='card'>
+    <div class="h5 class-title">Friend Suggestion</div>
+</div>
+{% for suggestion in friend_suggestion %}
+<div class='card mt-1 text-center'  style='display:block'>
+    <a href='/profile/{{suggestion.username}}/' style="text-decoration: none;"><img class='rounded-circle mt-2' height=60 width="60" src='{{suggestion.profile.profile_picture.url}}'></a>
+    <div class="card-body">
+            <div class="card-title"><a href='/profile/{{suggestion.username}}' style="text-decoration: none;">{{suggestion.first_name}} {{suggestion.last_name}}</a>
+                <p> {{suggestion.mutual}} mutual friends</p>
+                    <form action='/profile/send_request/{{suggestion.id}}/' method='POST'>
+                        <button  type='submit' class='btn btn-primary btn-sm'>Connect</button>
+                        {%csrf_token%}
+                    </form>
+            </div>
+        </div>
+    
+</div>
+{%endfor%}
+</div>
+{%endblock%}
