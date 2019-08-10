@@ -126,4 +126,4 @@ MEDIA_URL = "/media/"
 MEDIA_URL = "/storage/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "storage")
 
-django_heroku.setting(locals())
+django_heroku.settings(locals())
