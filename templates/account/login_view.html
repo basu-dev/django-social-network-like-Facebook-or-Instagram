@@ -1,67 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel='stylesheet' href='/static/css/bootstrap.min.css'>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Raven Login</title>
+  <link rel="stylesheet" href="/static/css/login.css" />
 </head>
-<body style='background-color:#edf0f5'>
-    <nav class="navbar navbar-expand-lg  fixed-top navbar-dark bg-dark" style = "background-color : #46218c;">
-        <a class="navbar-brand" href="#">Raven</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/signup/">Signup</a>
-            </li>
-          </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-        </div>
-      </nav>
-<div class='container'>
-    <br><br><br>
-    <div class='row'>
-        <div class='col-lg-2 col-md-1 mt-md-5'></div>
-        <div class='col-lg-8 col-md-10 '>
-                <br><br>
-<div class='row'>
-    <div class='col-lg-2 col-md-1'>
-
-    </div>
-    <div class='col-lg-8 col-md-10'>
-
-        <h2 class='h2'>One step away!</h2>
-        <form class='form' method='POST'>
-            {% if formerror.message %}
-            <div style='color:red;'>
-                .{{formerror.message}}
-            </div>
-            {%endif%}
-            <label for='username'></label>
-            <input type='text' name='username' class='form-control' required maxlength="100" >
-            <label for='password'></label>
-            <input type='password' name='password' id='password' class='form-control' required maxlength="16">
-            {%csrf_token%}
-            <br>
-            <button class='btn btn-primary form-control' type='submit'>Login</button>
-        </form>
-    </div>
-    <div class='col-lg-2 col-md-1'></div>
-</div>
-        </div>
-        <div class='col-lg-2 col-md-1 '></div>
-    </div>
-</div>
-<script src='/static/js/jquery.js'></script>
-    <script src='/static/js/bootstrap.min.js'></script>
+<body>
+  <div class="loginpage">
+    <form class='for loginform' method='POST'>
+      <div class="app-name">RAVEN</div>
+      <label class="label">Login</label>
+      {% if formerror.message %}
+      <div style='color:red;'>
+        .{{formerror.message}}
+      </div>
+      {%endif%}
+      <div class="form-group">
+        <input type='text' name='username' aria-autocomplete="none" placeholder="Username" onkeyup="showButton()" class='form-control' required maxlength="100"
+          autofocus>
+      </div>
+      <div class="form-group">
+        <div class="show" clicked='false' onclick="showPassword(this,'password')"><div></div></div>
+        <input type='password' name='password' id='password' onkeyup="showButton()" placeholder="Password" class='form-control' required
+          maxlength="16">
+      </div>
+      {%csrf_token%}
+      <button class='btn btn-primary form-control' disabled type='submit'>Login</button>
+    </form>
+    <p>If you don't have an account <a href="/signup/">Signup Here.</a></p>
+  </div>
+  <script src="/static/js/login.js"></script>
 </body>
+
 </html>

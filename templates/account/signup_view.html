@@ -1,73 +1,74 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel='stylesheet' href='/static/css/bootstrap.min.css'>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Raven Signup</title>
+  <link rel='stylesheet' href='/static/css/login.css'>
 </head>
-<body style='background-color:#edf0f5'>
-    <nav class="navbar navbar-expand-lg  fixed-top navbar-dark bg-dark" style = "background-color : #46218c;">
-        <a class="navbar-brand" href="#">Raven</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/login/">Login</a>
-            </li>
-          </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+<body>
+  <div class="loginpage signuppage">
+    <form class='form loginform signupform' autocomplete="off" method='POST'>
+      <div class="app-name">RAVEN</div>
+      <div class="label">Signup</div>
+      <div class="form-group">
+        <input type='text' placeholder="Username" autofocus onfocusout="checkU($(this)[0].value)" autocomplete="off"
+          onchange="validateUsername(this.id)" value='{{newuser.username}}' class='form-control' name='username'
+          required id='username'>
+        {% if formerror.username_error %}
+        <div class="backend-u-err" style='color:red;'>
+          <small>{{formerror.username_error}}</small>
         </div>
-      </nav>
-<div class='container'>
-    <br><br><br>
-    <div class='row'>
-        <div class='col-lg-2 col-md-1 mt-md-5'></div>
-        <div class='col-lg-8 col-md-10 '>
-                <h2 class='h2'>Connect to the world with Raven!!!</h2>
-            <form class='form' method='POST'>
-                {% if formerror.username_error %}
-                <div style='color:red;'>
-                    <p>{{formerror.username_error}}</p>
-                </div>
-                {%endif%}
-                <label for='username'>Choose a username</label>
-                <input type='text' value='{{newuser.username}}'' class='form-control {{username}}' name='username' required  id='username'>
-                {% if formerror.password_error %}
-                <div style='color:red;'>
-                    <p>{{formerror.password_error}}</p>
-                </div>
-                {%endif%}
-                <label for='password1'>Password</label>
-                <input type='password' value='{{newuser.password1}}'' class='form-control {{password}}' name='password1' required  id='password1'>
-                <label for='password2'>Password conform</label>
-                <input type='password' value='{{newuser.password2}}' class='form-control {{password}}' name='password2' required  id='password2'>
-                {% if formerror.name_error %}
-                <div style='color:red;'>
-                    <p>{{formerror.name_error}}</p>
-                </div>
-                {%endif%}
-                <label for='first_name'>First Name</label>
-                <input type='text' value='{{newuser.first_name}}'  class='form-control {{first_name}}' required name='first_name' id='first_name'>
-                <label for='last_name'>Last Name</label>
-                <input type='text' value='{{newuser.last_name}}' class='form-control {{name_name}}'  name='last_name' id='last_name'>
-                <br>
-                {%csrf_token%}
-                <button class='btn btn-primary btn-md form-control' type='submit'>Signup</button>
-            </form>
+        {%endif%}
+        <small id="usrreq" class='text-danger' style="display:none">Username Required</small>
+        <small id="uservalmsg" class="text-danger" style="display:none">Username Already Exists.
+          <span id="suggestuser">
+          </span>
+        </small>
+        <small id="invalidusername" class="text-danger" style="display:none">Invalid username. Choose New One.
+        </small>
+      </div>
+      <div class="form-group">
+        <small class="show" clicked='false' onclick="showPassword(this,'password1')"><div></div></small>
+        <input type='password' placeholder="Password" value='{{newuser.password1}}' class=' form-control'
+          name='password1' required id='password1' onfocusout="checkP($(this)[0].value)"
+          onkeyup="validatePassword($(this)[0].value)">
+        <small class="text-danger" id="pasvalmsg" style="display:none"></small>
+      </div>
+      <div class="form-group">
+        <div class="show" clicked='false' onclick="showPassword(this,'password2')"><div></div></div>
+        <input type='password' placeholder="Confirm Password" value='{{newuser.password2}}' class='form-control'
+          name='password2' required id='password2' onfocusout="checkCP($(this)[0].value)"
+          onkeyup="validateConfirmPassword(this.id)">
+        <small class="text-danger" id="cpvalmsg" style="display:none">Two Passwords Do Not Match.</small>
+        {% if formerror.password_error %}
+        <div class="backend-p-err" style='color:red;'>
+          <p>{{formerror.password_error}}</p>
         </div>
-        <div class='col-lg-2 col-md-1 '></div>
-    </div>
-</div>
-<script src='/static/js/jquery.js'></script>
-    <script src='/static/js/bootstrap.min.js'></script>
+        {%endif%}
+      </div>
+      <div class="form-group">
+        <input type='text' placeholder="First Name" onfocusout="checkF($(this)[0].value,'#fvalmsg','f')"
+          value='{{newuser.first_name}}' class='form-control {{first_name}}' required name='first_name' id='first_name'>
+        <small class="text-danger" id="fvalmsg" style="display:none">First Name Required</small>
+      </div>
+      <div class="form-group">
+        <input type='text' placeholder="Last Name" onfocusout="checkF($(this)[0].value,'#lvalmsg','l')"
+          value='{{newuser.last_name}}' class='form-control {{name_name}}' name='last_name' id='last_name'>
+        <small class="text-danger" id="lvalmsg" style="display:none">Last Name Required</small>
+        {% if formerror.name_error %}
+        <div class="backend-n-err" style='color:red;'>
+          <p>{{formerror.name_error}}</p>
+        </div>
+        {%endif%}
+      </div>
+      {%csrf_token%}
+      <button class='btn btn-primary btn-md form-control' type='submit' disabled>Signup</button>
+    </form>
+    <p>If you have an account <a href="/login/">Login here.</a></p>
+  </div>
+  <script  src='/static/js/jquery.js'></script>
+  <script src="/static/js/signup.js"></script>
 </body>
 </html>

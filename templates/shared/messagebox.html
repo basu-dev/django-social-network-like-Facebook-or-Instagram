@@ -1,0 +1,38 @@
+<div id="addedmessagebox">
+  <div data-toggle='collapse' class='messagetoggle' data-target='#messagebox'>Messege</div>
+  <div id='messagebox' val="{{request.receiver.id}}">
+    <div class='card'>
+      <div class='card'>
+        <div class='messageusername card-title mt-1 mb-1'>
+          <span class="a" onclick="route(this.attributes.href.value)"  href='/profile/{{request.receiver.username}}' style="text-decoration: none;"> <img class=' ml-2 pp'
+              height=33 width=33 src='{{request.receiver.profile.profile_picture.url}}'>
+            {{request.receiver.first_name}} {{request.receiver.last_name}}</span>
+          <span class="cross" onclick="remove(this)">X</span>
+        </div>
+      </div>
+      <div  id="scrollanimate" onvolumechange="scroll()">
+        {%if request.loadmore%}
+        <div class="loadmoremsg" id="ms*&*{{request.receiver.id}}n{{request.lastid}}ms*&*" onclick="loadMoreMsg(this.id)">
+        <button class="disabled">Load More</button>
+        </div>
+          {%endif%}
+        {%if messages%}
+        {%endif%}
+        <div class='messagearea'>
+        {%for message in messages%}
+          {% if request.user.id is message.receiver%}
+          <div class="hismsg">
+            <span>{{message.body}}</span>
+          </div>
+          {%else%}
+          <div class="mymsg">
+            <span>{{message.body}}</span>
+          </div>
+          {%endif%}
+          {%endfor%}
+        </div>
+      </div>
+        <textarea id='textarea{{request.receiver.id}}textarea' class="textarea" onkeyup="sendMessage(id)" placeholder="Type Message Here..." rows=1></textarea>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,9 @@ from . import views
 
 urlpatterns=[
     path('',views.storyline),
-    path('comment/<int:id>/',views.save_comment),
-    path('like/<int:id>/',views.save_like),
-  
+    path("storydetail/<int:id>/",views.storydetail),
+    path("updatestory",views.updatestory),
+    path("get_stories/",views.get_stories),
+    path("get_more_stories/<int:id>/<int:fid>",views.get_some_more_stories),
+    path("messanger",views.loadMessanger)
 ]

@@ -1,0 +1,59 @@
+{%for story in stories%}
+<div class='card mb-2 pb-1' id="antxi{{story.id}}antxi">
+    <div class='card-body story storyclick' id="{{story.id}}">
+        <div class='card-title pb-2'>
+            <div onclick="route(this.nextElementSibling.firstChild.attributes.href.value
+            )">
+                <img class='pp mr-2' height=30 width=30 src='{{story.user.profile.profile_picture.url}}'>
+            </div>
+            <div><span class="a" onclick="route(this.attributes.href.value)" class="mr-2"
+                    href='/profile/{{story.user.username}}'>{{story.user.first_name}}
+                    {{story.user.last_name}}</span>{{story.storytype}} on {{story.date}}</div>
+        </div>
+        <pre class='card-text storybody text-justify'>{{story.body}}</pre>
+        <span class="a" href="/storydetail/{{story.id}}" onclick="route(this.attributes.href.value)">
+            <div class="see_more_text">See Full Story</div>
+        </span>
+        <div class="imagefield" ondblclick="like(this.id,1)" id="likea{{story.id}}likea">
+            {%for image in story.images%}
+            <img src="/storage/{{image.url}}" class="storyimage">
+            {%endfor%}
+        </div>
+    </div>
+    <!-- LIKE COUNT -->
+    <div class='ml-2'>
+        <div class='ml-2 {{story.id}}_likey'>{{story.like.count}} Likes</div>
+        <div class='like_show{{story.id}} ml-2'></div>
+    </div>
+    <div class="btn-group">
+        <!-- LIKE-=FORM -->
+        {%if story.is_liked%}
+        <div type='submit' id='like{{story.id}}like' onclick="like(this.id,2)" class='like ml-3 mb-0'>Liked</div>
+        {%else%}
+        <div type='submit' id='like{{story.id}}like' onclick="like(this.id,2)" class='like ml-3 mb-0'>Like</div>
+        {%endif%}
+    </div>
+    <textarea onkeyup="commentt($(this))" placeholder="Comment..." id='comment{{story.id}}comment'
+        class='commentarea ' rows=1></textarea>
+    <div style="overflow-y:scroll;max-height:30vh;">
+        <div class='card cu commentupdate_{{story.id}}'></div>
+        {% for comment in story.comment %}
+        <div class='car'>
+            <div class='media'>
+                <span class="a" onclick="route(this.attributes.href.value)" href="/profile/{{comment.user.username}}">
+                    <img class='mediaimg pp' src='{{comment.user.profile.profile_picture.url}}'>
+                </span>
+                <div class='cmt'><span onclick="route(this.attributes.href.value)" href="/profile/{{comment.user.username}}"
+                        class="a cmtuser">{{comment.user.first_name}}
+                        {{comment.user.last_name}}</span>
+                    {{comment.body}}</div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+{%endfor%}
+{%if request.loadmore%}
+<div class="loadmore" id="{{lastid}}n{{firstid}}"
+    onclick="loadMoreStories(this.id)">LoadMore</div>
+{%endif%}

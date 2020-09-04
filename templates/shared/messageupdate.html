@@ -1,0 +1,16 @@
+{%if request.loadmore%}
+<section class="loadmoremsg" id="ms*&*{{request.receiver.id}}n{{request.lastid}}ms*&*" onclick="loadMoreMsg(this.id)">
+  <button>Load More </button>
+</section>
+{%endif%}
+{%for message in messages%}
+{% if request.user.id is message.receiver%}
+<div class="hismsg">
+  <span>{{message.body}}</span>
+</div>
+{%else%}
+<div class="mymsg">
+  <span>{{message.body}}</span>
+</div>
+{%endif%}
+{%endfor%}

@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.http import JsonResponse
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views
@@ -22,7 +23,8 @@ from . import apiviews
 from django.shortcuts import HttpResponse,redirect
 import os
 from  . import settings as s
-from Friends.models import Profile
+from stories.models import *
+from Friends.models import *
 from django.core.files.storage import FileSystemStorage
 
 def check(request):
@@ -32,15 +34,35 @@ def check(request):
         except:
             profile=Profile()
             profile.user=request.user
+        
         profile.profile_picture=request.FILES['photo']
         profile.save()
+        post=Post()
+        post.body=request.POST['status']
+        post.user=request.user
+        post.storytype=" updated profile picture "
+        post.save()
+        postimage=PostImage()
+        postimage.url=request.FILES['photo']
+        postimage.post=post
+        postimage.save()
+        add_user_to_post(post,request.user)
+        returndata={
+            "imageid":postimage.id,
+            "id":post.id,
+            "name":request.user.first_name+" "+request.user.last_name,
+            "date":post.date,
+            "picture":str(postimage.url),
+            "status":post.body
+        }
         fss=FileSystemStorage()
         fss.save("user-profile/"+request.FILES['photo'].name,request.FILES['photo'])
-        return redirect('/profile/my_profile')
+        return JsonResponse(returndata)
  
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/',views.signup),
+    path('username_validate/',views.username_validate),
     path('login/',views.login_view),
     path('',include('stories.urls')),
     path('logout/',views.log_out),
@@ -49,9 +71,13 @@ urlpatterns = [
     path('profile/',include('Friends.urls')),
     path('search/',views.search),
     path('api/like/<int:id>/',apiviews.like),
+    path('api/like/getlike/<int:id>/',apiviews.getlike),
     path('api/stories/comment/<int:id>/',apiviews.comment),
     path('update_pp/',check),
     path('api/messagecheck/',apiviews.messagecheck),
+    path("api/stories/",apiviews.stories),
+    path("api/get_notification",apiviews.get_notification,name="notifications"),
+
     
 ]
 

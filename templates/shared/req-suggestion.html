@@ -1,0 +1,87 @@
+<div class="friendreq">
+    <div class=" h5 messagetoggle">Requests Pending</div>
+
+    {%if request_sender%}
+    {%for i in request_sender%}
+    <div class="friend_request" id="frnreq{{i.id}}">
+        <div class="messagebody messagebody{{i.id}}">
+            <a href='/profile/{{i.username}}/'>
+                <img src="{{i.profile.profile_picture.url}}">
+            </a>
+            <a href='/profile/{{i.username}}/'>
+                <div class="messageuser">
+                    <div class="username">
+                        {{i.first_name}} {{i.last_name}}
+                    </div>
+                    <div class="lastmessage">
+                        {{i.mutual_friends}} mutual friend
+                    </div>
+                </div>
+            </a>
+            <div class="req{{i.id}}">
+                <button id="acc%&{{i.id}}acc%&" onclick="accept(this.id)"
+                    class='btn btn-success btn-sm ml-5 mt-2 acceptbtn'>Accept</button>
+            </div>
+            <div class="req{{i.id}}">
+
+                <button id="den$%&{{i.id}}den$%&" onclick="deny(this.id)"
+                    class='ml-2 btn btn-primary btn-sm ml-3 mt-2 denybtn'>Deny</button>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    {%else%}
+    <div class="card-title ml-2">
+        <h6 class='h6'>No Pending Requests</h5>
+    </div>
+    {%endif%}
+
+    <div class="h5 messagetoggle">Friend Suggestion</div>
+
+    {% for i in friend_suggestion %}
+    <div class="friend_request">
+        <div class="messagebody messagebody{{i.id}}" id="messagebody{{i.id}}">
+            <a href='/profile/{{i.username}}/'>
+                <img src="{{i.profile.profile_picture.url}}">
+            </a>
+            <a href='/profile/{{i.username}}/'>
+                <div class="messageuser">
+                    <div class="username">
+                        {{i.first_name}} {{i.last_name}}
+                    </div>
+                    <div class="lastmessage">
+                        {{i.mutual_friends}} mutual friend
+                    </div>
+                </div>
+            </a>
+            {%if i.is_not_friend%}
+            <div>
+                <button class="btn btn-primary btn-sm mt-2 ml-5 connectbtn" onclick="connect(this.id)"
+                    id="con&*&*{{i.id}}con&*&*">Connect</button>
+            </div>
+
+            {%endif%}
+            {%if i.is_sent%}
+            <div>
+                <button class="btn btn-danger btn-sm mt-2 ml-5 cancelreqbtn" onclick="cancelbtn(this.id)"
+                    id="can*&*{{i.id}}can*&*">Cancel Request</button>
+            </div>
+            {%endif%}
+            {%if i.is_received%}
+            <div class="req{{i.id}}">
+                <button id="acc%&{{i.id}}acc%&" onclick="accept(this.id)"
+                    class='acc%&{{i.id}}acc%& btn btn-success btn-sm ml-5 mt-2 acceptbtn'>Accept</button>
+            </div>
+            <div class="req{{i.id}}">
+                <button id="den$%&{{i.id}}den$%&" onclick="deny(this.id)"
+                    class='den$%&{{i.id}}den$%& ml-2 btn btn-primary btn-sm ml-3 mt-2 denybtn'>Deny</button>
+            </div>
+            {%endif%}
+        </div>
+    </div>
+
+    {%endfor%}
+</div>
+{%block script%}
+<script src="/static/js/friendreq.js"></script>
+{%endblock%}

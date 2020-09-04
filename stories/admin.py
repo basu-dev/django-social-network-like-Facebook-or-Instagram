@@ -6,3 +6,6 @@ admin.site.register(Post)
 admin.site.register(Comment)
 admin.site.register(Like)
 admin.site.register(Notification)
+admin.site.register(PostImage)
+admin.site.register(PostForUser)
+

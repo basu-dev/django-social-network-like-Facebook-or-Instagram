@@ -1,167 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{page_title}}</title>
-    <link rel='stylesheet' href='/static/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='/static/css/custom_css.css'>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{page_title}}</title>
+  <link rel='stylesheet' type="text/css" href='/static/css/custom_css.css'>
+  <link rel='stylesheet' disabled="true" id="darkmodecss" href='/static/css/darkmode.css'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body style='background-color:rgb(232, 237, 247)'>
-    <audio id='audio' src='http://127.0.0.1:8000/storage/message_notify.mp3'></audio>
-    <nav class="navbar navbar-expand-lg  fixed-top" style='height:7vh;background-color:rgb(225, 227, 236);'>
-        <a class="navbar-brand" href="/">Raven</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav">
-              <li class="nav-item ml-3">
-                  <a class="nav-link mt-1" href="/profile/my_profile/"><img class ='rounded-circle' height=32 width = 32  src='{{request.user.profile.profile_picture.url}}'></a>
-                </li>
-            <li class="nav-item ml-3">
-              <a class="nav-link mt-1" href="/">Storyline</a>
-            </li>
-            
-            <li class="nav-item dropdown ml-3">
-              
-              <a class="nav-link mt-1" name='Notification' href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="glyphicon glyphicon-bell">Notification</span>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% if request.notification %}
-                {% for notification in request.notification %}
-                <a class="dropdown-item" href="{{notification.url}}">{{notification.body}}</a>
-                <div class="dropdown-divider"></div>
-                {%endfor%}
-                {%else%}
-                
-                no notification
-                {%endif%}    
-            </li>
-            <form method='GET' action='/search/'>
-            <li class='nav-item'>
-              <div class='btn-group'>
-                  
-                <input  name='search_query' class='ml-5 nav-link mt-2' type="search" placeholder="Search" aria-label="Search" style='border:2px solid white;border-radius:25px;position:relative;height:6vh;width:25vw;' >
-                <a class='nav-link'><button id='search'style='display:none;' class='btn btn-info'>Search</button></a>
-              </div>
-           
-          
-          </form>
-          </ul>
-         
-        </div>
-        <ul class="navbar-nav ml-auto">
+
+<body>
+  <audio id='audio' src='http://127.0.0.1:8000/storage/message_notify.mp3'></audio>
+  <nav class="navbar navbar-expand-sm  fixed-top mynav">
+
+    <a class="navbar-brand" href="/">Raven</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="space_evenly_flex collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
         <li class="nav-item">
-          <form method='POST' action='/logout/'>
-              {%csrf_token%}
-                <button type='submit' class="btn btn-link nav-link">Logout</button>
-            </form>
-      </li>
-      </li>
-      </nav><br><br>
-    
-  
-        <div class='row'>
-          
-            <div class='col-lg-3 col-sm-2 col-xs-0 ' style='background-color:rgba(255,255,255,.4);height:89vh'>
-              <div class="card h5 col-lg-ml-1"style='color:rgb(66,139,202)'>Friends</div>
-                
-              {% block chatroom %}
-                {%endblock%}
+          <a class="nav-link" ondblclick="loadStories()" onclick="route('')">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1"
+              x="0px" y="0px" viewBox="0 0 27.02 27.02" style="enable-background:new 0 0 27.02 27.02;"
+              xml:space="preserve">
+              <g>
+                <path
+                  d="M3.674,24.876c0,0-0.024,0.604,0.566,0.604c0.734,0,6.811-0.008,6.811-0.008l0.01-5.581
+                       c0,0-0.096-0.92,0.797-0.92h2.826c1.056,0,0.991,0.92,0.991,0.92l-0.012,5.563c0,0,5.762,0,6.667,0 
+                      c0.749,0,0.715-0.752,0.715-0.752V14.413l-9.396-8.358l-9.975,8.358C3.674,14.413,3.674,24.876,3.674,24.876z" />
+                <path
+                  d="M0,13.635c0,0,0.847,1.561,2.694,0l11.038-9.338l10.349,9.28c2.138,1.542,2.939,0,2.939,0   L13.732,1.54L0,13.635z" />
+                <polygon points="23.83,4.275 21.168,4.275 21.179,7.503 23.83,9.752  " />
+              </g>
+
+            </svg>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <form method='GET' action='/search/' id="search">
+          <li class='nav-item'>
+            <div class='btn-group search'>
+              <input name='search_query' class=' nav-link mt.1 searchbox' type="search" autocomplete="off"
+                placeholder="Find People" aria-label="Search">
             </div>
-            
-            <div class='col-lg-5 col-sm-7 col-xs-12' style="overflow-y:scroll;height:89vh;overflow-x:hidden">
-            
-                {% block storyline%}
-                
-                {%endblock%}
+        </form>
+      </ul>
+      <ul class="navbar-nav ml.5">
+        <li class="nav-item dropdown ml.3">
+          <a class="nav-link mt.1 notification_butto" id="navbarDropdown" aria-expanded="false"
+            onclick="loadNotifications()">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1"
+              x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+              <g>
+                <g>
+                  <path
+                    d="M467.812,431.851l-36.629-61.056c-16.917-28.181-25.856-60.459-25.856-93.312V224c0-67.52-45.056-124.629-106.667-143.04    V42.667C298.66,19.136,279.524,0,255.993,0s-42.667,19.136-42.667,42.667V80.96C151.716,99.371,106.66,156.48,106.66,224v53.483    c0,32.853-8.939,65.109-25.835,93.291l-36.629,61.056c-1.984,3.307-2.027,7.403-0.128,10.752c1.899,3.349,5.419,5.419,9.259,5.419    H458.66c3.84,0,7.381-2.069,9.28-5.397C469.839,439.275,469.775,435.136,467.812,431.851z" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M188.815,469.333C200.847,494.464,226.319,512,255.993,512s55.147-17.536,67.179-42.667H188.815z" />
+                </g>
+              </g>
+
+            </svg>
+          </a>
+          <div class="   dropdown-notification">
+            <div class="dropdown-men notification_div">
+              <div>Loading...</div>
             </div>
-            <div class='col-lg-4 col-sm-3 col-xs-0 ' style='overflow-y:scroll;height:89vh;overflow-x:hidden'>
-                {% block messageroom%}
-                {%endblock%}
-            </div>
-        
+          </div>
+        </li>
+      </ul>
+      <ul class="space_between_fle navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link"><img class='pp navpp' ondblclick="loadMyProfile('',true)" onclick="route('my_profile')"
+              height=32 width=32 src='{{request.user.profile.profile_picture.url}}'></a>
+        </li>
+      </ul>
     </div>
-    <script src='/static/js/jquery.js'></script>
-    <script src='/static/js/bootstrap.min.js'></script>
-    
-    <script>
-        $(document).ready(function(){
-            $('.likeform').click(function(){
-                event.preventDefault();
-                id=$(this).attr('id');
-                $.ajax({
-                    url:'/api/like/'+id+'/',
-                    type:'POST',
-                    data:{csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val()},
-                    success:function(data){
-                    if (data.truth=='True'){
-                        updated_count=data.count;   
-                        $('.'+id+'_likey').remove();
-                        $('.like_show'+id).html(updated_count+' Likes').show();
-                        $('#'+id+'btn').html(data.is_liked);
-                        }
-                    else if(data.truth=='False'){  
-                        updated_count=data.count;
-                        $('.'+id+'_likey').remove();
-                        $('.like_show'+id).html(updated_count+' Likes').show();
-                        $('#'+id+'btn').html(data.is_liked)
-                        $('#'+id+'btn').css('border')
-                    }    
-                    },
+    <ul class="navbar-nav ml.auto">
+      <li class="nav-item" onclick="toggleSidenav()">
+        <div class="hamburgerdiv">
+          <div class="hitem"></div>
+        </div>
+      </li>
+    </ul>
 
-                });
-            });
-        });
+  </nav>
+  <div class="sidenav">
+    <form method='POST' action='/logout/'>
+      {%csrf_token%}
+      <button type='submit' id="logout" class="nobtn a">Logout</button>
+    </form>
+    <div class="a" onclick="getFriendSuggestions()">
+      Friend Suggestion
+    </div>
+    <div class="a" onclick="getFriendRequests()">
+      Friend Requests
+    </div>
+    <div class="a" onclick="getRequestSent()">
+      Request Sent
+    </div>
+    <div class="a" id="dark" onclick="toggle(this.children[1].children[0].children[0].attributes.checked.value)">
+      <span>Dark Mode</span>
+      <div class="checkbox">
+        <div class="bar" toggled="false">
+          <div class="knob" checked="true">
+            <div id='knobshadow'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
 
-    </script>
-    <script>
-      $(document).ready(function(){
-        $(".comment_form").submit(function(e){
-          e.preventDefault();
-          var id=$(this).attr("id");
-          var comment=$("#comment_"+id).val();
-          $.ajax({
-            type:'POST',
-            url:'/api/stories/comment/'+id+'/',
-            data:{
-              csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val(),
-              comment:comment,
-
-            },
-            success:function(data){
-              var p=document.createElement("p");
-              var b=document.createElement("h6");
-              var diva=document.createElement("div");
-              var image=document.createElement("img");
-              image.src=data.profile_picture;
-              image.height=30;
-              image.width=30;
-              image.className="rounded-circle";
-              diva.className="card";
-              p.innerHTML=data.comment;
-              b.innerHTML=data.user;
-              diva.appendChild(image);
-              diva.appendChild(b);
-              diva.appendChild(p);
-              document.getElementById("commentupdate_"+id).appendChild(diva);
-              $("#commentupdate_"+id).prepend(diva);
-            document.getElementById("comment_"+id).value="";
-
-            }
-          })
-        })
-      })
-    </script>
-  {% block script%}
-  {%endblock%}
-
+    <div id="loading" class="loader">
+      <div class="loading"></div>
+    </div>
+    <div class='row mainsection'>
+      <div class="shadow" onclick="closeSearch()"></div>
+      <div class='col-xl-3 col-lg-2 col-md-2 col-sm-2 col-xs-0 column  px-sm-1'>
+        {% block chatroom %}
+        {%endblock%}
+      </div>
+      <div class='col-xl-5 col-lg-5 col-md-6 col-sm-6 col-xs-12 column px-sm-0 pl-lg-2  storylinee'>
+        <div class="searchdiv">
+          <div class="searchresult" style="color:white">
+            Searching...
+          </div>
+        </div>
+        <div class="stories">
+          {% block storyline%}
+          {%endblock%}
+        </div>
+        <div class="myprofile">
+        </div>
+        <div class="others"></div>
+        <!-- <div id="loading">Loading...</div> -->
+      </div>
+      <div class='column col-xl-4 col-lg-5 col-md-4 col-md-p-0 col-sm-4 col-xs-0 px-sm-0 pl-lg-2 messageareaa'>
+        <div class="sidebar">
+          <div class="title"></div>
+          <div class="sideitem"></div>
+        </div>
+        <div class="previous_messageareaa">
+          {% block messageroom%}
+          {%endblock%}
+        </div>
+        <div class="editarea">
+          <div class="profile_edit">
+            <div class=" storytoedit mr.2 ">
+              <div class="btn-group-own">
+                <label class="label mb-0">Edit Story</label>
+                <div onclick="cancelEdit()" class="cross editstorycancel">X</div>
+              </div>
+              <!--EDIT STORY FORM-->
+              <form enctype="multipart/form-data" id="update_story_form" method="POST" action="/updatestory">
+                <input type="text" style="display:none" id="storyId" value="" name="storyId">
+                <input type="text" style="display:none" id="imageId" value="" name="imageId">
+                {%csrf_token%}
+                <textarea type="text" class="form-control" onfocus="textareaFocused(this,true)"
+                  onfocusout="textareaFocused(this,false)" onkeydown="resizeTextArea(event)" name="status"
+                  value="kjdsfal" id="editstorybody"></textarea>
+                <div class="custom-file">
+                  <label class="custom-file-label">Change Picture</label>
+                  <input type="file" id="editimageinput" name="img" onchange="showImagePreview(this.id,'#editimage')"
+                    class="custom-file-input">
+                </div>
+                <div class="imagefield profileeditimage" style="margin:0em">
+                  <img id="editimage" src="" class="storyimage editimg">
+                </div>
+            </div>
+            <div class="btn-group-own">
+              <button type="submit" id="editstoryform" class="btn btn-success form-control btn-sm ">
+                Save
+              </button>
+              <button type="button" onclick="cancelEdit()"
+                class="btn btn-danger form-control btn-sm editstorycancel">Cancel</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="confirmmodal" opened="false">
+      <div class="confirm-title"></div>
+      <div class="confirm-body"></div>
+      <div class="confirm-footer">
+        <div class="button-group">
+          <a>Yes</a>
+          <a>No</a>
+        </div>
+      </div>
+    </div>
+    <div class="toastr" onclick="closeError()">
+      <div class="toastr-title"></div>
+      <div class="toastr-msg"></div>
+    </div>
+    <script type="text/javascript" src='/static/js/jquery.js'></script>
+    <script src="/static/js/page_renderer.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/message.js"></script>
+    <script src="/static/js/likecomment.js"></script>
+    <script src="/static/js/friendreq.js"></script>
+    {% block script%}
+    {%endblock%}
 </body>
 </html>

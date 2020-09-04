@@ -1,0 +1,36 @@
+<div class="friendss">
+    {%if friend_list%}
+    {% for friend in friend_list %}
+    <div class='{{friend.id}} friendtile' id="{{friend.username}}" onclick="route('profile'+'/'+this.id)">
+        <div>
+            <img class='pp' height=30 width=30 src='{{friend.profile.profile_picture.url}}'>
+        </div>
+        <div class="friendname">{{friend.first_name}} {{friend.last_name}}</div>
+    </div>
+    {%endfor%}
+    {%else%}
+    <div class="nofriends">
+        <p class="pl-3">
+            Click on Friends Tab above to <span class="highlight">hide and show</span> Friends. Double Click to reload friends.
+        </p>
+        <p class="pl-3">
+            Add some friends by searching on the searchbar and start our chat system.
+        </p>
+        <br>
+        <p class="pl-3">
+            Click on the Avatar icon on the navbar or <span class="highlight" onclick="route('my_profile')">Click Here</span> to visit and update your profile.
+            You can click on the current Profile Picture to change your profile picture.
+        </p>
+        <br>
+        <p class="pl-3">
+            You can view other's stories and add your own.
+        </p>
+        <br>
+        <p class="pl-3">
+
+            For now some stories of our Developer are displayed on the page for you.
+            This will be replaced by your friends story soon.
+        </p>
+    </div>
+    {%endif%}
+</div>

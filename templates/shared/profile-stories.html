@@ -1,0 +1,84 @@
+{%for story in stories%}
+<div id="antxi{{story.id}}antxi">
+    <div class='card  mb-2 pb-1 fordelete_{{story.id}}' id={{story_id}}>
+        <div class='card-body story storyclick story{{story.id}}' id="{{story.id}}">
+            <div class='card-title pb-2'>
+                <div onclick="route(this.nextElementSibling.firstChild.attributes.href.value
+                )">
+                    <img  class='pp mr-2' height=30 width=30 src='{{story.user.profile.profile_picture.url}}'>
+                </div>
+                <div><span class="a" onclick="route(this.attributes.href.value)" class="mr-2"
+                        href='/profile/{{story.user.username}}'>{{story.user.first_name}}
+                        {{story.user.last_name}}</span>{{story.storytype}} on {{story.date}}</div>
+            </div>
+            <pre class='card-text storybody text-justify'>{{story.body}}</pre>
+            <span class="a" href="/storydetail/{{story.id}}/" onclick="route(this.attributes.href.value)">
+                <div class="see_more_text">See Full Story</div>
+            </span>
+            <div class="imagefield" id="likea{{story.id}}likea" ondblclick="like(this.id,1)">
+                {%for image in story.images%}
+                <img src="/storage/{{image.url}}" id="{{image.id}}" class="storyimage storyimage{{story.id}}">
+                {%endfor%}
+            </div>
+        </div>
+        <!-- LIKE-COUNT -->
+        <div class='ml-2'>
+            <div class='ml-2 {{story.id}}_likey'>{{story.like.count}} Likes</div>
+            <div class='like_show{{story.id}} ml-2'></div>
+        </div>
+        <div class="btn-group">
+            <!-- LIKE-=FORM -->
+            {%if story.is_liked%}
+            <div type='submit' id='like{{story.id}}like' onclick="like(this.id,2)" class='like ml-3 mb-0'>Liked</div>
+            {%else%}
+            <div type='submit' id='like{{story.id}}like' onclick="like(this.id,2)" class='like ml-3 mb-0'>Like</div>
+            {%endif%}
+            <!-- DELETEFORM -->
+            {% if request.isprofile%}
+            <button type='submit' id="delete{{story.id}}delete" onclick="deleteStory(this.id)"
+                class='btn-sm delete ml-3 mb-0'>Delete</button>
+
+            <div class="like ml-3" id={{story.id}} onclick="editbtn(this)">
+                Edit
+                <div id="edittexthide{{story.id}}" style="display:none">b$890${{story.body}}b$890$</div>
+                {%for image in story.images%}
+                <div style="display:none">
+                    <p id={{image.id}} class='imageurlhide{{story.id}}'>
+                        {{image.url}}
+                    </p>
+                </div>
+                {%endfor%}
+            </div>
+            {%endif%}
+        </div>
+        <!-- COMMENT FORM -->
+        <textarea onkeyup="commentt($(this))" placeholder="Comment..." id='comment{{story.id}}comment'
+            class='commentarea ' rows=1></textarea>
+        <!-- COMMENTS SECTION -->
+        <div style="overflow-y:scroll;max-height:30vh;">
+            <div class="card commentupdate_{{story.id}}"></div>
+            {% for comment in story.comment %}
+            <div class='card'>
+                <div class='media'>
+                    <span class="a" onclick="route(this.attributes.href.value)" href="/profile/{{comment.user.username}}">
+                        <img class='mediaimg pp' src='{{comment.user.profile.profile_picture.url}}'>
+                    </span>
+                    <div class='cmt'><span onclick="route(this.attributes.href.value)" href="/profile/{{comment.user.username}}"
+                            class="a cmtuser">{{comment.user.first_name}}
+                            {{comment.user.last_name}}</span>
+                        {{comment.body}}</div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+{%endfor%}
+{%if request.loadmore%}
+{%if request.isprofile%}
+<div id="#^&*{{lastid}}n{{firstid}}#^&*" class="loadmore" onclick="loadMoreProfile(this.id)">Load More</div>
+{%else%}
+<div id="{{lastid}}n{{firstid}}f1*%$#1f{{user.username}}" class="loadmore" onclick="loadMoreProfileUser(this.id)">Load
+    More</div>
+{%endif%}
+{%endif%}

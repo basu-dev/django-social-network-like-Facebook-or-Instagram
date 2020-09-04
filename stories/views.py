@@ -1,93 +1,91 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from . import urls
 from .models import *
 from message.models import *
 from django.contrib.auth.decorators import login_required
-from Friends.models import get_all_friends
+from Friends.models import *
+from django.http import JsonResponse
+
 @login_required(login_url='/login/')
 def storyline(request):
+    if(request.is_ajax):
+        return render(request,'storyline.html',{'page_title':'Home-Raven'})
+
+@login_required(login_url='/login/')
+def storydetail(request,id):
+    try:
+        story=get_single_story(request,id)
+    except:
+        story=None
+        request.message="The story was not found. It might have  been deleted by the user."
+        
+    return render(request,"storydetail.html",{"story":story})
+
+@login_required(login_url="/login")
+def updatestory(request):
+    if request.method=='POST':
+        imageId=request.POST['imageId']
+        storyId=request.POST['storyId']
+        post=Post.objects.get(id=storyId)
+        if(request.user==post.user):            
+            post.body=request.POST['status']
+            post.save()
+            try:
+                image=PostImage.objects.get(id=imageId)
+                try:
+                    image.url=request.FILES['image']
+                    image.save()
+                except:
+                    pass
+            except:
+                try:
+                    image=PostImage()
+                    image.url=request.FILES['image']
+                    image.post=post
+                    image.save()
+                except:
+                    pass
+            return JsonResponse({"success":True,
+                "id":post.id,
+                "imageid":image.id,
+                "status":post.body,
+                "picture":str(image.url)
+            })
+        
+        else:
+            return JsonResponse({"success":False})
+    return JsonResponse({"success":False})
+@login_required(login_url="/login")
+def get_some_more_stories(request,id,fid):
+    result=get_more_stories_all(request,request.user,id,fid)
+    stories=result[0]
+    lastid=result[1]
+    firstid=result[2]
+    request.loadmore=load_more(lastid)
+    return render(request,"../templates/shared/stories.html",{"stories":stories,"lastid":lastid,"firstid":firstid})
+@login_required(login_url="/login")
+def get_stories(request):
+    result=get_stories_all_friends(request,request.user)
+    stories=result[0]
+    lastid=result[1]
+    firstid=result[2]
+    request.loadmore=load_more(lastid)
+    return render(request,"../templates/shared/stories.html",{"stories":stories,"lastid":lastid,"firstid":firstid})
+@login_required(login_url="/login")
+def loadMessanger(request):
     friend_list=[]
-    stories=[]
     messages=[]
     message_body=[]
-    friends = get_all_friends(request.user.id)
-    for i in friends:
-        if i.sender is not request.user.id:
-            friend_list+=User.objects.filter(id=i.sender)
-        else:
-            friend_list+=User.objects.filter(id=i.receiver)
-    for i in friend_list:
-        stories+=Post.objects.filter(user=i).order_by('date')
-    for story in stories:
-        story.comment=get_comment(story.id)
-    for story in stories:
-        story.like = Like.objects.filter(post = story)
-    messages+=get_message_with(request.user.id,3)
+    friend_list = get_all_friends_user(request.user.id)
+    messages=get_message_with(request.user.id,3)[0] 
+    receiver=User.objects.get(id=1).first_name 
     for  i in messages:
-        
         i.sender=User.objects.get(id=i.sender)
-    receiver=User.objects.get(id=3).first_name 
-    for i in friend_list:
-       message_body+= get_last_message_with(request.user.id,i.id)
-       
-
-    #was error while applying if inside storylin so we used if inside views (gettin the name of our friend but not ours)
-    for i in message_body:
-        if i.sender==request.user.id:
-            name=User.objects.get(id=i.receiver)
-            i.name=name.first_name+' '+name.last_name
-            i.link=User.objects.get(id=i.receiver).id
-            i.user=name
-        else:
-            name=User.objects.get(id=i.sender)
-            i.name=name.first_name+' '+name.last_name
-            i.link=User.objects.get(id=i.sender).id
-            i.user=name
-    request.notification=get_last_ten(request.user)
-    return render(request,'storyline.html',{'receiver':receiver,'message_body':message_body,'page_title':'Home-Raven','friend_list':friend_list,'stories':stories,'messages':messages})
-
-
-@login_required(login_url='/login/')
-def save_comment(request, id):
-    if request.method=='POST':
-        comment = request.POST['comment']
-        new_cmt = Comment()
-        new_cmt.body= comment
-        new_cmt.user =  request.user
-        new_cmt.post  = Post.objects.get(id = id)
-        if comment:
-            set_notification(new_cmt.post.user,request.user.username +' commented on your post :'+comment ,0,'/profile/')
-            new_cmt.save()
-        
-        return redirect('/')
-    else:
-        return redirect('/')
-
-@login_required(login_url='/login/')
-def save_like(request, id):
-    if request.method=='POST':
-       post =Post.objects.get(id = id)
-       try:
-           like=Like.objects.filter(user=request.user).filter(post=post)
-       except:
-            like=0  
-       if like:
-           like.delete()
-           try:
-               link=request.POST['redirect_to']
-           except:
-                link=0
-           if link:
-                return redirect(link)
-           else:
-                return redirect('/')
-       else:
-            newlike=Like()
-            newlike.user=request.user
-            newlike.post=post
-            newlike.like=True
-            newlike.save()
-            set_notification(post.user, request.user.first_name+' '+request.user.last_name +'liked your post.',0,'/profile/')
-            return redirect('/')
-    else:
-        return redirect('/')        
+    message_body=get_last_message_body_homepage(request.user.id,friend_list)
+    if(message_body==[]):
+        request.nomessage=True
+    return render(request,"../templates/shared/storyline-messagebox.html",{
+    'receiver':receiver,
+    'message_body':message_body,
+    'messages':messages,
+    })

@@ -1,0 +1,32 @@
+{%if user.is_not_friend%}
+<div>
+    <button class="btn btn-primary btn-sm mt-2 ml-1 mr-1 connectbtn con&*&*{{user.id}}con&*&*" onclick="connect(this.id)"
+        id="con&*&*{{user.id}}con&*&*">Connect</button>
+</div>
+{%endif%}
+{%if user.is_friend%}
+<div>
+    <button class="btn btn-success btn-sm mt-2 ml-1 mr-1 msglaunch{{user.id}}msglaunch" id="msglaunch{{user.id}}msglaunch"
+        onclick="lauchMessage(null,this.id)">Message</button>
+</div>
+<div>
+    <button class="btn btn-danger btn-sm mt-2 ml-1 mr-1 disconnectbtn dis*&*{{user.id}}dis*&*" id="dis*&*{{user.id}}dis*&*"
+        onclick="disconnect(this.id)">Disconnect</button>
+</div>
+{%endif%}
+{%if user.is_sent%}
+<div>
+    <button class="btn btn-danger btn-sm mt-2 ml-1 mr-1 cancelreqbtn can*&*{{user.id}}can*&*" onclick="cancelbtn(this.id)"
+        id="can*&*{{user.id}}can*&*">Cancel Request</button>
+</div>
+{%endif%}
+{%if user.is_received%}
+<div class="req{{user.id}}">
+    <button id="acc%&{{user.id}}acc%&" onclick="accept(this.id)"
+        class='acc%&{{user.id}}acc%& btn btn-success btn-sm ml-1 mr-1 mt-2 acceptbtn'>Accept</button>
+</div>
+<div class="req{{user.id}}">
+    <button id="den$%&{{user.id}}den$%&" onclick="deny(this.id)"
+        class='den$%&{{user.id}}den$%& ml-2 btn btn-primary btn-sm ml-1 mr-1 mt-2 denybtn'>Deny</button>
+</div>
+{%endif%}

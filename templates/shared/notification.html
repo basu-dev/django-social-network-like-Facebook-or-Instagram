@@ -1,0 +1,12 @@
+{% if notifications %}
+              {% for notification in notifications %}
+              <a class="dropdown-ite" onclick="{{notification.url}}">{{notification.body}}</a>
+              {%endfor%}
+              {%else%}
+              <a class="dropdown-ite">
+                Welcome to Raven! Enjoy your journey with us.
+              </a>
+              <a class="dropdown-ite" onclick="route('my_profile')">
+                Add a profile picture. Edit your profile and add some friends to start.Click here.
+              </a>
+              {%endif%} 
