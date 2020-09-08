@@ -1,16 +1,19 @@
+"use strict";
 function like(value, checkvalue) {
+  let id=null;
   if (checkvalue == 1) {
-    id = value.split("likea")[1];
+     id = value.split("likea")[1];
   } else if (checkvalue == 2) {
-    id = value.split("like")[1];
+     id = value.split("like")[1];
   }
   $.ajax({
     url: "/api/like/" + id + "/",
     type: "POST",
     data: { csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val() },
     success: function(data) {
+      let updated_count;
       if (data.truth == "True") {
-        updated_count = data.count;
+         updated_count = data.count;
         $("." + id + "_likey").remove();
         $(".like_show" + id)
           .html(updated_count + " Likes")
@@ -37,7 +40,7 @@ function like(value, checkvalue) {
   });
 }
 function getLike(value) {
-  id = value.split("getlike")[1];
+  const id = value.split("getlike")[1];
   $.ajax({
     type: "GET",
     url: "/api/like/getlike/" + id + "/",
@@ -47,14 +50,14 @@ function getLike(value) {
   });
 }
 function commentt(div) {
-  idvalue = div[0].id;
-  id = idvalue.split("comment")[1];
+ const idvalue = div[0].id;
+ const id = idvalue.split("comment")[1];
   var comment = div[0].value;
   if (comment.trim() == "") {
     div[0].value = "";
     return false;
   } else {
-    for (i = 0; i <= comment.length; i++) {
+    for (let i = 0; i <= comment.length; i++) {
       if (comment[i] == "\n") {
         div[0].value = "";
         $.ajax({

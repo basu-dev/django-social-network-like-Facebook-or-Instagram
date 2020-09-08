@@ -1,6 +1,10 @@
+"use strict";
 $(document).ready(function () {
+  let scripts=['main.js','message.js','likecomment.js','friendreq.js','friend_profile.js'];
+  scripts=scripts.map(x=>`<script src="/static/js/${x}"></script>`);
+  scripts.forEach(x=>$("body").append(x));
   try {
-    value = localStorage.getItem("dark");
+   const value = localStorage.getItem("dark");
     if (value == "true") {
       toggle("true");
     }
@@ -38,10 +42,10 @@ function loadStories() {
     $(".others").html("");
   }
 }
-function loadMyProfile(no, hardload) {
-  if (!navppclicked || hardload) {
-    loading(true);
 
+function loadMyProfile(no, hardload) {
+  if (!navppclicked) {
+    loading(true);
     $.ajax({
       type: "GET",
       url: "/profile/my_profile/",
@@ -67,9 +71,11 @@ function loadMyProfile(no, hardload) {
     $(".others").html("");
   }
 }
+let friend_profile_script_loaded=false;
 function loadUserProfile(div, username) {
   loading(true);
-  name = "";
+  let name = "";
+  let url=""
   if (div != "") {
     url = div[0].attributes.href.value;
     name = url.split("/")[2];
@@ -90,6 +96,7 @@ function loadUserProfile(div, username) {
         hideAndShow(".myprofile", ".others");
         hideAndShow(".stories", "");
         loadUserProfileStories(url);
+        friend_profile_script_loaded=true;
       }
     },
     error: function (err) {
@@ -98,8 +105,7 @@ function loadUserProfile(div, username) {
   });
 }
 function loadUserProfileStories(url) {
-  username = url.split("/")[2];
-
+  const username = url.split("/")[2];
   loading(true),
     $.ajax({
       type: "GET",
@@ -114,7 +120,6 @@ function loadUserProfileStories(url) {
       },
     });
 }
-previousOpenedStories = [];
 function getStoryDetail(div, response, id, fromback) {
   if (div == "" && response != "") {
     $(".others").html("");
@@ -124,6 +129,7 @@ function getStoryDetail(div, response, id, fromback) {
     loading();
   } else {
     loading(true);
+    let url="";
     if (div == "" && id) {
       url = `/storydetail/${id}/`;
       ajaxcall("GET", url, getStoryDetail);

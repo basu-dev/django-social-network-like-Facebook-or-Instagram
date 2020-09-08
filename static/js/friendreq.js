@@ -1,5 +1,6 @@
+"use strict";
 function connect(value) {
-  id = value.split("con&*&*")[1];
+  let id = value.split("con&*&*")[1];
   $.ajax({
     type: "POST",
     url: `/profile/send_request/${id}/`,
@@ -8,7 +9,7 @@ function connect(value) {
     },
     success: function(response) {
       if (response != false) {
-        btn = document.getElementsByClassName(value);
+        const btn = document.getElementsByClassName(value);
         removeBtn(btn);
         $(`.messagebody${id}`).append(response);
       }
@@ -19,13 +20,13 @@ function connect(value) {
   });
 }
 function cancelbtn(value) {
-  id = value.split("can*&*")[1];
+  let id = value.split("can*&*")[1];
   $.ajax({
     type: "GET",
     url: `/profile/deny/${id}/`,
     success: function(response) {
       if (response != false) {
-        btn = document.getElementsByClassName(value);
+        const btn = document.getElementsByClassName(value);
         removeBtn(btn);
         $(`.messagebody${id}`).append(response);
       }
@@ -36,7 +37,7 @@ function cancelbtn(value) {
   });
 }
 function accept(value) {
-  id = value.split("acc%&")[1];
+  let id = value.split("acc%&")[1];
   $.ajax({
     type: "POST",
     url: `/profile/accept/${id}/`,
@@ -44,12 +45,11 @@ function accept(value) {
       csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
     },
     success: function(response) {
-      console.log(response)
-      result = response.split("&*&*&*&**ab");
-      connectbtns=document.getElementsByClassName(`con&*&*${id}con&*&*`);
+      let result = response.split("&*&*&*&**ab");
+      const connectbtns=document.getElementsByClassName(`con&*&*${id}con&*&*`);
       removeBtn(connectbtns);
-      btn = result[0];
-      div = result[1];
+     let  btn = result[0];
+     let  div = result[1];
       if (response != false) {
         $(`#frnreq${id}`).remove();
         $(`.req${id}`).remove();
@@ -68,7 +68,7 @@ function accept(value) {
   });
 }
 function deny(value) {
-  id = value.split("den$%&")[1];
+  const id = value.split("den$%&")[1];
   $.ajax({
     type: "POST",
     url: `/profile/deny/${id}/`,
@@ -87,7 +87,7 @@ function deny(value) {
     }
   });
 }
-selectedUserId = "";
+var selectedUserId = "";
 function disconnect(value) {
   openModal(
     "Confirmation",
@@ -107,7 +107,7 @@ function disconnectConfirm() {
     success: function(response) {
       if (response != false) {
        let className=`disconnectbtn dis*&*${id}dis*&*`
-        btn = document.getElementsByClassName(className);
+       const btn = document.getElementsByClassName(className);
         // btn.forEach(b=>b.remove());
         removeBtn(btn);
         $(`.messagebody${id}`).append(response);
@@ -123,10 +123,8 @@ function disconnectConfirm() {
   });
 }
 function removeBtn(btngrp) {
-  console.log(btngrp)
-  len = btngrp.length;
-  for (i = 0; i < len; i++) {
+  const len = btngrp.length;
+  for (let i = 0; i < len; i++) {
     btngrp.item(0).remove();
   }
-  console.log(btngrp)
 }

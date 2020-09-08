@@ -1,7 +1,8 @@
 
-friendusername = "";
-friendprofieloaded = false;
-storydetailloaded = false;
+"use strict";
+  let friendusername = "";
+let friendprofieloaded = false;
+let storydetailloaded = false;
 function loading(truth) {
   if (truth) {
     $("#loading").css({"display":"block","opacity": "1",});
@@ -46,8 +47,8 @@ function loadFriends() {
 }
 
 function loadMoreStories(value) {
-  lastId = value.split("n")[0];
-  firstid = value.split("n")[1];
+  const lastId = value.split("n")[0];
+  const firstid = value.split("n")[1];
   loading(true),
     $.ajax({
       type: "GET",
@@ -55,7 +56,7 @@ function loadMoreStories(value) {
       success: function(response) {
         $(`#${value}`).remove();
         let result = response.split("antxi");
-        for (i = 0; i < result.length; i++) {
+        for (let i = 0; i < result.length; i++) {
           if (i % 2 != 0) {
             let div = document.getElementById(`antxi${result[i]}antxi`);
             if (div != null) {
@@ -72,7 +73,7 @@ function loadMoreStories(value) {
     });
 }
 function storeProfile() {
-  fp = $(".others").html();
+  const fp = $(".others").html();
   if (friendprofieloaded) {
     sessionStorage.setItem("friendprofile", fp);
     friendprofieloaded = false;
@@ -82,7 +83,7 @@ function storeProfile() {
     storydetailloaded = false;
   }
 }
-notification_clicked = false;
+let notification_clicked = false;
 function loadNotifications() {
   if (!notification_clicked) {
     $(".dropdown-content").css("display", "block");
@@ -110,7 +111,7 @@ function loadMessanger(nothing, respon) {
   }
 }
 function lauchMessage(id, frmprofile) {
-  id = id ? id : frmprofile.split("msglaunch")[1];
+   id = id ? id : frmprofile.split("msglaunch")[1];
   loading(true);
   $.ajax({
     type: "GET",
@@ -130,12 +131,12 @@ function lauchMessage(id, frmprofile) {
   });
 }
 
-abc = "";
+
 
 //storyline
 $("#search").submit(function(e) {
   e.preventDefault();
-  data = $(".searchbox").val();
+  const data = $(".searchbox").val();
   if (data.trim() == "") {
     $(".searchbox").val("");
     return;
@@ -163,11 +164,15 @@ function closeSearch() {
   $("input[name=search_query]").val("");
 }
 
-sidenavOpened = false;
+let sidenavOpened = false;
 function toggleSidenav() {
   if (sidenavOpened) {
+    document.removeEventListener('click',toggleSidenav)
     $(".sidenav").css({ top: "-80px", opacity: "0" });
   } else {
+    setTimeout(()=>{
+      document.addEventListener('click',toggleSidenav);
+    })
     $(".sidenav").css({ top: "50px", opacity: "1" });
   }
   sidenavOpened = !sidenavOpened;
@@ -196,7 +201,11 @@ function openSidebar(title, response) {
   $(".sideitem").html(response);
 }
 function closeSidebar() {
-  $(".sidebar").css({ right: "-500px" });
+  let sidebar=$(".sidebar");
+  const width=sidebar[0].clientWidth;
+  console.log(sidebar,width)
+  sidebar[0].style.right=`-${width +2}px`;
+  
 }
 function getFriendRequests() {
   loading(true);
@@ -241,7 +250,7 @@ function ajaxcall(method, url, cb, data, dataType) {
     }
   });
 }
-
+let errortimer;
 function toastr(err, title, message,notError,showAsItIs) {
    $(".toastr").toggleClass("toastr-success", notError);
   try {
@@ -341,18 +350,23 @@ function toggleNotification(){
   const isShown=toggler.getAttribute('aria-expanded');
   const target=document.querySelector('.dropdown-notification');
   if(isShown=='false'){
-    target.style.display='block';
+    // target.style.display='block';
+    console.log(target)
+    setTimeout(_=>{
+
+    })
     setTimeout(()=>{
+      $(".dropdown-notification").css("top","50px");
       document.addEventListener('click',toggleNotification);
     })
     toggler.setAttribute('aria-expanded','true')
   }
   else{
     document.removeEventListener('click',toggleNotification)
-    target.style.display='none';
+    // target.style.display='none';
+    target.style.top=`-${target.clientHeight + 2 }px`;
     toggler.setAttribute('aria-expanded','false')
   }
 }
   document.querySelector('#navbarDropdown').addEventListener('click',toggleNotification);
-
 

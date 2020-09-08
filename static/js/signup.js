@@ -1,26 +1,67 @@
-confirm_password_touched = false;
-username_valid = false;
-password_valid = false;
-confirm_password_valid = false;
-fvalid = false;
-lvalid = false;
+"use strict";
+  let confirm_password_touched = false;
+let username_valid = true;
+let password_valid = false;
+let confirm_password_valid = false;
+let fvalid = false;
+let lvalid = false;
+function ajax({type,url,data,success,error}){
+ let http= new XMLHttpRequest();
+ let body=new FormData();
+ Object.entries(data).forEach(x=>{
+   body.append(x[0],x[1]);
+ })
+ http.open(type,url,true);
+ http.onreadystatechange=function(ev){
+   if(http.readyState==4 && http.status==200){
+     success(JSON.parse(http.response))
+   }
+ }
+ http.send(body);
+}
+function $(selector) {
+  let elements = document.querySelector(selector);
+  if (elements == undefined) {
+    elements=null;
+  }
+  let self = {
+    element: elements,
+    html: function (body) {
+      return self.element?(body ? (self.element.innerHTML = body) : self.element.innerHTML):null;
+    },
+    text: function (body) {
+      return self.element?(body ? (self.element.innerText = body) : self.element.innerText):null;
+    },
+    val: function (value) {
+      return self.element?(value ? (self.element.value = value) : self.element.value):null;
+    },
+    css: function (key, val) {
+      return self.element?(self.element.style[key] = val):null;
+    },
+    disabled: function (val) {
+      return self.element?(self.element.disabled = val):null;
+    }
+
+  };
+  return self;
+}
 function validateUsername(id) {
   $("#usrreq").css("display", "none");
-  val = $(`#${id}`).val();
-  $.ajax({
+  const val = $(`#${id}`).val();
+  ajax({
     type: "POST",
     url: "/username_validate/",
     data: {
       csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-      value: val
+      value: val,
     },
-    success: function(response) {
+    success: function (response) {
       $(".backend-u-err").css("display", "none");
       if (response.exist === true) {
         username_valid = false;
         $("#uservalmsg").css("display", "block");
         $("#invalidusername").css("display", "none");
-        newusername = tryNewUsername(val);
+        let newusername = tryNewUsername(val);
         $("#suggestuser").html(`Try ${newusername}`);
       } else if (response.invalid === true) {
         username_valid = false;
@@ -32,13 +73,13 @@ function validateUsername(id) {
         $("#uservalmsg").css("display", "none");
         $("#invalidusername").css("display", "none");
       }
-    }
+    },
   });
 }
-pvalue = "";
+let pvalue = "";
 function validatePassword(value) {
   pvalue = value;
-  errormsg = "Password Must Be At Least 6 Characters Long.";
+  const errormsg = "Password Must Be At Least 6 Characters Long.";
   $(".backend-p-err").css("display", "none");
   if (pvalue.length < 6) {
     password_valid = false;
@@ -55,7 +96,7 @@ function validatePassword(value) {
 }
 function validateConfirmPassword(id) {
   if (password_valid) {
-    cvalue = $(`#${id}`).val();
+    const cvalue = $(`#${id}`).val();
     if (cvalue === pvalue) {
       confirm_password_valid = true;
       $("#cpvalmsg").css("display", "none");
@@ -76,15 +117,13 @@ function showButton() {
     fvalid &&
     lvalid
   ) {
-    $("button")[0].disabled = false;
+    $("button").disabled = false;
   } else {
-    $("button")[0].disabled = true;
+    $("button").disabled = true;
   }
 }
 function tryNewUsername(val) {
-  return (newusername = val.concat(
-    Math.round(Math.random() * Math.random() * 876).toString()
-  ));
+  return val.concat(Math.round(Math.random() * Math.random() * 876).toString());
 }
 function checkP(value) {
   if (value == "") {

@@ -1,19 +1,20 @@
+"use strict";
 let mydata;
 let previousImageUrl = "";
 let ppblob = null;
 let storyblob = null;
 let editblob = null;
-let detin;
+let destin;
 function showImagePreview(id, destination, showdiv, showcancelicon) {
   destin=destination;
   try {
     $(showcancelicon).css("z-index", "10");
   } catch (e) {}
-  file = $("#" + id)[0].files[0];
+  const file = $("#" + id)[0].files[0];
   let fr = new FileReader();
   fr.readAsDataURL(file);
   fr.onloadend = function (e) {
-    filetype = fr.result.split(":")[1].split(";")[0];
+   let filetype = fr.result.split(":")[1].split(";")[0];
     if (
       filetype == "image/jpeg" ||
       filetype == "image/png" ||
@@ -23,7 +24,7 @@ function showImagePreview(id, destination, showdiv, showcancelicon) {
       showPreview(showdiv, destination, e.target.result);
       let image = new Image();
       image.onload = function () {
-        canvas = document.createElement("canvas");
+        let canvas = document.createElement("canvas");
         var context = canvas.getContext("2d");
         let ratio = image.width / image.height;
         function width() {
@@ -75,11 +76,11 @@ function showImagePreview(id, destination, showdiv, showcancelicon) {
 }
 $("#ppform").submit(function (e) {
   e.preventDefault();
-  data = new FormData(this);
+  let data = new FormData(this);
   data.append("photo", ppblob, "ravenprofileimage.jpg" );
   ppblob=null;
   hideAndShow("#ppform", "#my_profile");
-  previewimg = $(".pppreview").attr("src");
+  let previewimg = $(".pppreview").attr("src");
   $(".mypp").attr("src", previewimg);
   $(".profile_picture_loading").css("z-index", "5");
   $.ajax({
@@ -90,13 +91,13 @@ $("#ppform").submit(function (e) {
     processData: false,
     success: function (response) {
       toastr("","Profile Picture Updated Successfully !!!","",true,true)
-      inputelem = $("#ppimg");
+      let inputelem = $("#ppimg");
       inputelem[0].value = "";
-      pp = response.picture;
+     let  pp = response.picture;
       $(".profile_picture_loading").css("z-index", "-100");
       $(".profileimagestory").attr("src", "/storage/" + response.picture);
       $(".navpp").attr("src", "/storage/" + response.picture);
-      story = getStoryWithImage(
+      let story = getStoryWithImage(
         response,
         " added a profile picture.",
         `/storage/${pp}`
@@ -125,14 +126,14 @@ $("#storyform").submit(function (e) {
     data: data,
     success: function (response) {
       toastr("","Story Added Successfully !!!","",true,true)
-      inputelem = $("#storyinputfile");
+      let inputelem = $("#storyinputfile");
       inputelem[0].value = "";
       loading();
       if (response.failed) {
         toastr(response, "Upload Failed", "Please Enter Valid Data");
       } else {
-        pp = $(".pp").attr("src");
-        story = getStoryWithImage(response, " added a story", pp);
+        let pp = $(".pp").attr("src");
+        let story = getStoryWithImage(response, " added a story", pp);
         $(".profilestoriesappend").prepend(story);
       }
     },
@@ -141,7 +142,7 @@ $("#storyform").submit(function (e) {
     },
   });
 });
-data = null;
+let data = null;
 $(".update_profile").submit(function (e) {
   e.preventDefault();
   data = new FormData(this);
@@ -155,7 +156,7 @@ $(".update_profile").submit(function (e) {
     success: function (response) {
       toastr("","Profile Updated Successfully !!!","",true,true)
       loading();
-      ps = $(".profiledetail").children("b");
+      let ps = $(".profiledetail").children("b");
       ps[0].innerText = data.get("first_name");
       ps[1].innerText = data.get("last_name");
       ps[2].innerText = data.get("job");
@@ -172,7 +173,7 @@ $(".update_profile").submit(function (e) {
 });
 $("#update_story_form").submit(function (e) {
   e.preventDefault();
-  data = new FormData(this);
+  let data = new FormData(this);
   if(data.get('img').size!==0){
     if(editblob !=null) data.append('image',editblob,'ravenstory.jpg');
     editblob=null;
@@ -189,8 +190,8 @@ $("#update_story_form").submit(function (e) {
       loading();
       hideAndShow(".profile_edit", ".previous_messageareaa"),
         $(".editstorybody").html("");
-      children = $(`.story${response.id}`).children();
-      statusdiv = children[1];
+      let children = $(`.story${response.id}`).children();
+      let statusdiv = children[1];
       statusdiv.innerHTML = response.status;
       $("");
       if (response.picture) {
@@ -215,10 +216,10 @@ $("#update_story_form").submit(function (e) {
     },
   });
 });
-resizeTextArea = (event) => {
-  enterCount = 2;
-  element = event.target;
-  elementVal = element.value;
+const resizeTextArea = (event) => {
+  let enterCount = 2;
+  let element = event.target;
+  let elementVal = element.value;
   var len = elementVal.length;
   if (elementVal.trim() != "") {
     for (var i = 0; i < len; i++) {
@@ -233,8 +234,8 @@ resizeTextArea = (event) => {
 };
 function textareaFocused(element, focused) {
   var enterCount = 1;
-  elementVal = element.value;
-  len = elementVal.length;
+ let elementVal = element.value;
+ let len = elementVal.length;
   for (var i = 0; i < len; i++) {
     if (elementVal[i] == "\n") {
       enterCount++;
@@ -254,7 +255,7 @@ function getStoryWithImage(response, storytype, pp) {
   } else {
     var imgfield = "";
   }
-  story =
+  let story =
     `<div id="antxi${response.id}antxi">
 <div class='card mb-2 pb-1 fordelete_${response.id}' id='${response.id}'>
  <div class='card-body story storyclick story${response.id}'id="${response.id}">

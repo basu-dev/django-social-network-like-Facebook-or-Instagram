@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>{{page_title}}</title>
-  <link rel='stylesheet' type="text/css" href='/static/css/custom_css.css'>
+  <link rel='stylesheet' type="text/css" href='/static/css/site.css'>
   <link rel='stylesheet' disabled="true" id="darkmodecss" href='/static/css/darkmode.css'>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -14,7 +14,6 @@
 <body>
   <audio id='audio' src='http://127.0.0.1:8000/storage/message_notify.mp3'></audio>
   <nav class="navbar navbar-expand-sm  fixed-top mynav">
-
     <a class="navbar-brand" href="/">Raven</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,11 +70,6 @@
 
             </svg>
           </a>
-          <div class="   dropdown-notification">
-            <div class="dropdown-men notification_div">
-              <div>Loading...</div>
-            </div>
-          </div>
         </li>
       </ul>
       <ul class="space_between_fle navbar-nav">
@@ -94,6 +88,11 @@
     </ul>
 
   </nav>
+  <div class="dropdown-notification">
+    <div class="dropdown-men notification_div">
+      <div>Loading...</div>
+    </div>
+  </div>
   <div class="sidenav">
     <form method='POST' action='/logout/'>
       {%csrf_token%}
@@ -206,10 +205,6 @@
     </div>
     <script type="text/javascript" src='/static/js/jquery.js'></script>
     <script src="/static/js/page_renderer.js"></script>
-    <script src="/static/js/main.js"></script>
-    <script src="/static/js/message.js"></script>
-    <script src="/static/js/likecomment.js"></script>
-    <script src="/static/js/friendreq.js"></script>
     {% block script%}
     {%endblock%}
 </body>

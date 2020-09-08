@@ -1,3 +1,4 @@
+/* @import "/static/css/bootstrap-extract.css"; */
 @import "/static/css/bootstrap.min.css";
 :root {
   --background-colorfirst: #dadee6;
@@ -24,6 +25,7 @@
   --input-box-shadow: inset 2px 2px 10px #cecdcd;
   --input-box-shadow-focus: inset 1px 1px 7px #969494;
 }
+*{margin:0;padding:0;box-sizing: border-box;}
 body {
   font-family: Roboto, "Segoe UI", Tahoma, sans-serif;
   margin: 0px !important;
@@ -98,6 +100,9 @@ body {
   right: 0;
   z-index: 5;
 }
+.sideitem{
+  padding:.3em;
+}
 .sidenav {
   user-select: none;
   position: fixed;
@@ -112,6 +117,7 @@ body {
   padding: 0.5em;
   box-shadow: 2px 2px 5px var(--boxshadowfirst);
   opacity: 0;
+  transition:.3s ease-out;
 } /* ............root............................ */
 .column {
   height: calc(100vh - 50px);
@@ -121,19 +127,22 @@ body {
   margin-right: 0 !important;
 }
 .dropdown-notification {
-  display:none;
+  /* display:none; */
   position: fixed;
   right: 50px;
-  top: 50px;
+  top: -50px;
   background-color: var(--backgroundsecond);
   max-width: 450px;
   min-width: 400px;
   border: none !important;
   box-shadow: 1px 1px 4px var(--boxshadowfirst);
-  z-index: 3;
+  z-index: 4;
+  border-radius: 10px;
+  transition:.3s ease-out;
 }
 .storylinee {
   overflow-y: hidden;
+  
 }
 .myprofile,
 .stories,
@@ -313,7 +322,7 @@ textarea {
   box-shadow: 2px 2px 5px rgb(164, 162, 162);
   height: 30px;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 7px;
   user-select: none;
   outline: none !important;
 }
@@ -344,6 +353,7 @@ a:hover {
   background: #555;
 } /* MessangerArea...................................................... .........*/
 .messagearea {
+  /* padding:5px; */
   width: 100%;
 }
 .messageareaa {
@@ -355,6 +365,10 @@ a:hover {
   scroll-behavior: unset;
   overflow-x: hidden;
   transition: scroll 0ms ease;
+  margin:0 !important;
+}
+#messagebox > div{
+  margin-left:3px;
 }
 .mymsg,
 .hismsg {
@@ -366,35 +380,36 @@ a:hover {
 .mymsg {
   justify-content: flex-end;
   align-items: flex-end;
+  color: var(--colorsecond);
 }
 .hismsg {
   justify-content: flex-start;
   align-items: flex-end;
   max-width: 100%;
-  color: var(--colorsecond);
 }
 .mymsg span,
 .hismsg span {
   max-width: 70%;
   word-wrap: break-word;
-  padding: 0.2em 0.7em;
+  padding: 0.3em 0.9em;
 }
 .mymsg span {
   margin-right: 0.3rem;
   border-radius: 20px 4px 4px 20px;
-  background: rgba(207, 205, 205, 0.651);
+  background: #ff0d49
 }
 .hismsg span {
   margin-left: 0.3rem;
   border-radius: 4px 20px 20px 4px;
-  background: rgb(245, 37, 37);
+  background: rgba(221, 219, 219, 0.651);
+
 }
 .messagebody {
   display: flex;
   justify-content: space-between;
   padding: 0.2em 0.3em;
   max-width: 100%;
-  margin: 0.3em;
+  margin: 0 .3em .3em 0.3em !important;
   border-radius: 2px;
   background-color: var(--backgroundsecond);
 }
@@ -454,6 +469,7 @@ a:hover {
   border: none;
   background-color: var(--backgroundsecond);
   color: var(--colorfirst);
+  border-radius: 10px;
 }
 .story .card-title {
   display: flex;
@@ -693,8 +709,9 @@ button {
 .friendtile {
   cursor: pointer;
   display: flex;
-  background-color: var(--backgroundsecond);
+  /* background-color: var(--backgroundsecond); */
   padding: 0.2em 0.3em;
+  border-radius: 3px;
   margin: 0.2em 0em 0.3em 0.3em;
 }
 .friendname {
@@ -914,6 +931,8 @@ input {
 }
 #messagebox .card-title {
   font-size: 1.1em;
+  font-weight: 600;
+  letter-spacing: 1px;
   padding-bottom: 0.3em;
   border-bottom: 1px solid rgba(45, 70, 118, 0.582);
 }
@@ -953,7 +972,7 @@ input {
   right: -500px;
   z-index: 3;
   overflow-y: scroll;
-  transition: right 300ms ease-in;
+  transition: right 300ms ease-out;
   padding: 0.5em;
 }
 #logout {

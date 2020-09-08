@@ -1,4 +1,5 @@
 
+  "use strict"; 
 function loadProfile() {
   loading(true),
     $.ajax({
@@ -37,14 +38,14 @@ function addStoryCancel() {
   $(".storypreview").css("display", "none");
   $(".addstorycancel").css("z-index", "-5");
   $(".textarea_profile").val("");
-  inputelem = $("#storyinputfile");
+  let inputelem = $("#storyinputfile");
   inputelem[0].value = "";
   storyblob=null;
 }
 function hidePPForm(className) {
   $("." + className).attr("src", previousImageUrl);
   hideAndShow("#ppform", "#my_profile");
-  inputelem = $("#ppimg");
+  let inputelem = $("#ppimg");
   inputelem[0].value = "";
   ppblob=null;
 }
@@ -63,17 +64,17 @@ function showupdateProfile(truth) {
     hideAndShow("#update_profile", "#my_profile");
   }
 }
-updatejsloaded = false;
+let updatejsloaded = false;
 function editbtn(div) {
   $(".profile_edit").css("display", "block");
-  inputelem = $("#editimageinput");
+  let inputelem = $("#editimageinput");
   inputelem[0].value = "";
   $("#addedmessagebox").remove();
   hideAndShow(".previous_messageareaa", ".editarea");
-  body = div.innerHTML;
-  storyId = div.id;
-  url = body.split("post-images/");
-  storybodyhtml = document.getElementById("edittexthide" + storyId).innerHTML;
+  let body = div.innerHTML;
+  let storyId = div.id;
+  let url = body.split("post-images/");
+  let storybodyhtml = document.getElementById("edittexthide" + storyId).innerHTML;
   body = storybodyhtml.split("b$890$")[1];
   try {
     let imageId = $(".imageurlhide" + storyId).attr("id");
@@ -83,7 +84,7 @@ function editbtn(div) {
   } catch (e) {
     console.log(e);
   }
-  textarea = $("#editstorybody");
+  const textarea = $("#editstorybody");
   textarea[0].value = body;
   textarea[0].defaultValue = body;
   $("#storyId").attr("value", storyId);
@@ -91,16 +92,18 @@ function editbtn(div) {
 
 function cancelEdit() {
   hideAndShow(".editarea", ".previous_messageareaa");
-  inputelem = $("#editimageinput");
+  let inputelem = $("#editimageinput");
   inputelem[0].value = "";
   $("#editimage").attr("src", "");
 }
-firstId = "";
-firstidloaded = false;
+
+let firstidloaded = false;
+let firstId = "";
 function loadMoreProfile(value) {
-  lastId = value.split("#^&*")[1].split("n")[0];
+  let lastId = value.split("#^&*")[1].split("n")[0];
+  let firstid = value.split("#^&*")[1].split("n")[1];
   if (firstidloaded === false) {
-    firstId = firstid = value.split("#^&*")[1].split("n")[1];
+    firstId = value.split("#^&*")[1].split("n")[1];
     firstidloaded = true;
   } else {
     firstid = firstId;
@@ -110,10 +113,10 @@ function loadMoreProfile(value) {
       type: "GET",
       url: `/profile/api/get_more_profile_stories/${lastId}/${firstid}`,
       success: function (response) {
-        btn = document.getElementById(value);
+        const btn = document.getElementById(value);
         btn.remove();
         let result = response.split("antxi");
-        for (i = 0; i < result.length; i++) {
+        for (let i = 0; i < result.length; i++) {
           if (i % 2 != 0) {
             let div = document.getElementById(`antxi${result[i]}antxi`);
             if (div != null) {
@@ -126,7 +129,7 @@ function loadMoreProfile(value) {
       },
     });
 }
-selectedStoryId = "";
+let selectedStoryId = "";
 function deleteStory(value) {
   openModal(
     "Confirmation",

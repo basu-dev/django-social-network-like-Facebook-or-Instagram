@@ -1,9 +1,10 @@
+"use strict";
 function loadMoreMsg(value) {
-  previousHeight = $("#scrollanimate")[0].scrollHeight;
-  newvalue = value.split("ms*&*")[1];
-  userid = newvalue.split("n")[0];
-  lastid = newvalue.split("n")[1];
-  btn = document.getElementById(value);
+  let previousHeight = $("#scrollanimate")[0].scrollHeight;
+ let  newvalue = value.split("ms*&*")[1];
+  let userid = newvalue.split("n")[0];
+ let lastid = newvalue.split("n")[1];
+  let btn = document.getElementById(value);
   btn.innerHTML = "<div style='height:32px'>Loading....</div>  ";
   $.ajax({
     type: "GET",
@@ -11,7 +12,7 @@ function loadMoreMsg(value) {
     success: function(response) {
       btn.remove();
       $(`.messagearea`).prepend(response);
-      recentHeight = $("#scrollanimate")[0].scrollHeight;
+      let recentHeight = $("#scrollanimate")[0].scrollHeight;
       if (recentHeight - previousHeight != 0) {
         scroll(recentHeight - previousHeight);
       }
@@ -24,7 +25,7 @@ function loadMoreMsg(value) {
 }
 function scroll(height) {
   let time = 0;
-  obj = { height, time };
+ let obj = { height, time };
   obj = height
     ? { height: height, time: 0 }
     : { height: $("#scrollanimate")[0].scrollHeight, time: 5 };
@@ -34,12 +35,12 @@ function scroll(height) {
 }
 function sendMessage(value) {
   var msg = $("#" + value).val();
-  id = value.split("textarea")[1];
+  let id = value.split("textarea")[1];
   if (msg.trim() == "") {
     document.getElementById(value).value = "";
     return false;
   } else {
-    for (i = 0; i < msg.length; i++) {
+    for (let i = 0; i < msg.length; i++) {
       if (msg[i] == "\n") {
         if ((msg.length == 0) | (msg == "\n")) {
           return false;
@@ -70,11 +71,12 @@ function sendMessage(value) {
     }
   }
 }
-interval = -1;
+let interval = -1;
 function getMessage(id) {
   try {
     clearInterval(interval);
   } catch (e) {}
+  let val=null;
   interval = val = setInterval(function() {
     try {
       $.ajax({
@@ -99,7 +101,7 @@ function getMessage(id) {
   }, 1000);
 }
 function play() {
-  audio = $("audio");
+  const audio = $("audio");
   audio[0].play();
 }
 function remove(abc) {
@@ -116,8 +118,8 @@ function arrangeElements() {
   var normalBorderRadius = "3px";
   var children = $(parentClass);
   var len = children.length;
-  lastElement = children[0];
-  recentElement = null;
+  let lastElement = children[0];
+  let recentElement = null;
   for (var i = 0; i < len; i++) {
     recentElement = children[i];
     if (!(recentElement.className == lastElement.className)) {
