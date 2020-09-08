@@ -13,7 +13,7 @@
       <div class="app-name">RAVEN</div>
       <div class="label">Signup</div>
       <div class="form-group">
-        <input type='text' placeholder="Username" autofocus onfocusout="checkU($(this)[0].value)" autocomplete="off"
+        <input type='text' placeholder="Username" autofocus onfocusout="checkU(this.value)" autocomplete="off"
           onchange="validateUsername(this.id)" value='{{newuser.username}}' class='form-control' name='username'
           required id='username'>
         {% if formerror.username_error %}
@@ -32,14 +32,14 @@
       <div class="form-group">
         <small class="show" clicked='false' onclick="showPassword(this,'password1')"><div></div></small>
         <input type='password' placeholder="Password" value='{{newuser.password1}}' class=' form-control'
-          name='password1' required id='password1' onfocusout="checkP($(this)[0].value)"
-          onkeyup="validatePassword($(this)[0].value)">
+          name='password1' required id='password1' onfocusout="checkP(this.value)"
+          onkeyup="validatePassword(this.value)">
         <small class="text-danger" id="pasvalmsg" style="display:none"></small>
       </div>
       <div class="form-group">
         <div class="show" clicked='false' onclick="showPassword(this,'password2')"><div></div></div>
         <input type='password' placeholder="Confirm Password" value='{{newuser.password2}}' class='form-control'
-          name='password2' required id='password2' onfocusout="checkCP($(this)[0].value)"
+          name='password2' required id='password2' onfocusout="checkCP(this.value)"
           onkeyup="validateConfirmPassword(this.id)">
         <small class="text-danger" id="cpvalmsg" style="display:none">Two Passwords Do Not Match.</small>
         {% if formerror.password_error %}
@@ -49,12 +49,12 @@
         {%endif%}
       </div>
       <div class="form-group">
-        <input type='text' placeholder="First Name" onfocusout="checkF($(this)[0].value,'#fvalmsg','f')"
+        <input type='text' placeholder="First Name" onfocusout="checkF(this.value,'#fvalmsg','f')"
           value='{{newuser.first_name}}' class='form-control {{first_name}}' required name='first_name' id='first_name'>
         <small class="text-danger" id="fvalmsg" style="display:none">First Name Required</small>
       </div>
       <div class="form-group">
-        <input type='text' placeholder="Last Name" onfocusout="checkF($(this)[0].value,'#lvalmsg','l')"
+        <input type='text' placeholder="Last Name" onfocusout="checkF(this.value,'#lvalmsg','l')"
           value='{{newuser.last_name}}' class='form-control {{name_name}}' name='last_name' id='last_name'>
         <small class="text-danger" id="lvalmsg" style="display:none">Last Name Required</small>
         {% if formerror.name_error %}
@@ -68,7 +68,6 @@
     </form>
     <p>If you have an account <a href="/login/">Login here.</a></p>
   </div>
-  <script  src='/static/js/jquery.js'></script>
   <script src="/static/js/signup.js"></script>
 </body>
 </html>

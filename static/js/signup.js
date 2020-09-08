@@ -110,6 +110,8 @@ function validateConfirmPassword(id) {
   showButton();
 }
 function showButton() {
+  // console.log($('button'))
+  console.log(username_valid,password_valid,confirm_password_valid,fvalid,lvalid);
   if (
     username_valid &&
     password_valid &&
@@ -117,9 +119,9 @@ function showButton() {
     fvalid &&
     lvalid
   ) {
-    $("button").disabled = false;
+    $("button").disabled(false);
   } else {
-    $("button").disabled = true;
+    $("button").disabled(true)
   }
 }
 function tryNewUsername(val) {
