@@ -22,12 +22,18 @@ html {
 .loginform {
   padding: 1em;
   color: white;
-  border-radius: 7px;
+  border-radius: 10px;
   width: 400px;
   background-color: var(--background-first);
-  box-shadow:0 0 5000px 5000px rgba(16, 18, 59, 0.7);
+box-shadow:0 0 5000px 5000px rgba(16, 18, 59, 0.7);
 }
-
+.loginform p{
+  margin-top: 10px;
+  margin-bottom: -10px;
+  color:#e8e4e4;
+  font-size: .8em;
+  text-align: center;
+}
 .loginform .app-name {
   font-family: sans-serif;
   font-weight: 600;
@@ -45,6 +51,11 @@ html {
   align-items: center;
   height: 100vh;
   color: inherit;
+}
+@media(max-width: 750px){
+  .loginpage {
+    background:none;
+  }
 }
 .loginpage a {
   color: rgb(131, 182, 253);
@@ -99,10 +110,10 @@ html {
 .text-danger{
 color:#e74040 !important;
 }
-body {
+/*body {
   background-color: rgba(29, 48, 70, 0.918);
   color: rgb(243, 236, 236);
-}
+}*/
 
 /*fromBootstrap*/
 /* navitem */
