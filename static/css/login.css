@@ -54,7 +54,10 @@ box-shadow:0 0 5000px 5000px rgba(16, 18, 59, 0.7);
 }
 @media(max-width: 750px){
   .loginpage {
-    background:none;
+    background:#b5b1b1;
+  }
+  .loginform{
+    box-shadow: none;
   }
 }
 .loginpage a {
