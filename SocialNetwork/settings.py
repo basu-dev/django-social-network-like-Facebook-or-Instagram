@@ -28,7 +28,7 @@ SECRET_KEY = My_SECRET
 DEBUG = False
 
 ALLOWED_HOSTS = ["sbraven.herokuapp.com"]
-ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
