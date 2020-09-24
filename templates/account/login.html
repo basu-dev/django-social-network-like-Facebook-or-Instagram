@@ -9,8 +9,6 @@
 
 </head>
 <body>
-
-
 <div class="form-Bg">
     <div class="form-header">
         <h1>RAVEN</h1>
@@ -18,9 +16,9 @@
         <p>Login And Enjoy The Social Connections with Raven.</p>
     </div>
     {% if formerror.message %}
-    <b style='color:rgba(255, 0, 0, 0.762);'>
-      .{{formerror.message}}
-    </b>
+    <div style='color:white;font-size:.9rem'>
+      *{{formerror.message}}
+    </div>
     {%endif%}
     <form method="POST">
         <div class="form-group">
@@ -45,9 +43,8 @@
             <span>Remember Me</span>
             </label>
         </div>
-        
         <div class="form-group">
-            <button>Log In</button>
+            <button disabled>Log In</button>
             <div id="next">If you don't have an account <a href="/signup/">Signup Here.</a></div>
         </div>
     </form> 
@@ -67,6 +64,6 @@
             <li></li>
         </ul>
     </div>
-    <script src="/static/js/signup.js"></script>
+    <script src="/static/js/login.js"></script>
 </body>
 </html>

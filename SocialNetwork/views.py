@@ -42,7 +42,7 @@ def signup(request):
         newuser.last_name=request.POST['last_name']
         if(request.POST['username']=="my_profile"):
             fe.username_error="Invalid username. Choose New One."
-            return render(request,'account/signup_view.html',{'page_title':'Raven-Signup','formerror':fe,'newuser':newuser})
+            return render(request,'account/signup.html',{'page_title':'Raven-Signup','formerror':fe,'newuser':newuser})
         validation=1
         if newuser.password1==newuser.password2:
             if len(newuser.password1)<6:
@@ -76,9 +76,9 @@ def signup(request):
             pp.save()
             return redirect('/login/')
         else:
-            return render(request,'account/signup_view.html',{'page_title':'Raven-Signup','formerror':fe,'username':ue,'password':pe,'first_name':ne,'newuser':newuser})
+            return render(request,'account/signup.html',{'page_title':'Raven-Signup','formerror':fe,'username':ue,'password':pe,'first_name':ne,'newuser':newuser})
     else:
-        return render(request,'account/signup_view.html',{'page_title':'Raven-Signup','formerror':fe})
+        return render(request,'account/signup.html',{'page_title':'Raven-Signup','formerror':fe})
 
 def username_validate(request):
     if request.method=='POST':

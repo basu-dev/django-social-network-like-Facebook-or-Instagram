@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raven Register</title>
+    <!-- <link rel="stylesheet" href="css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="/static/css/login_view.css">
+
+</head>
+<body>
+<div class="form-Bg">
+    <div class="form-header">
+        <h1>RAVEN</h1>
+        <h2>SignUp</h2>
+        <p>Create Raven Account And Enjoy The Social Connections with Raven.</p>
+    </div>
+    {% if formerror.message %}
+    <b style='color:rgba(255, 0, 0, 0.762);'>
+      .{{formerror.message}}
+    </b>
+    {%endif%}
+    <form class='form loginform signupform' autocomplete="off" method='POST'>
+        <div class="form-group">
+          <input type='text' placeholder="Username" autofocus onfocusout="checkU(this.value)" autocomplete="off"
+            onchange="validateUsername(this.id)" value='{{newuser.username}}' class='form-control' name='username'
+            required id='username'>
+          {% if formerror.username_error %}
+          <div class="backend-u-err" style='color:red;'>
+            <small>{{formerror.username_error}}</small>
+          </div>
+          {%endif%}
+          <small id="usrreq" class='text-danger' style="display:none">Username Required</small>
+          <small id="uservalmsg" class="text-danger" style="display:none">Username Already Exists.
+            <span id="suggestuser">
+            </span>
+          </small>
+          <small id="invalidusername" class="text-danger" style="display:none">Invalid username. Choose New One.
+          </small>
+        </div>
+        <div class="form-group">
+          <small class="show" clicked='false' onclick="showPassword(this,'password1')"><div></div></small>
+          <input type='password' placeholder="Password" value='{{newuser.password1}}' class=' form-control'
+            name='password1' required id='password1' onfocusout="checkP(this.value)"
+            onkeyup="validatePassword(this.value)">
+          <small class="text-danger" id="pasvalmsg" style="display:none"></small>
+        </div>
+        <div class="form-group">
+          <div class="show" clicked='false' onclick="showPassword(this,'password2')"><div></div></div>
+          <input type='password' placeholder="Confirm Password" value='{{newuser.password2}}' class='form-control'
+            name='password2' required id='password2' onfocusout="checkCP(this.value)"
+            onkeyup="validateConfirmPassword(this.id)">
+          <small class="text-danger" id="cpvalmsg" style="display:none">Two Passwords Do Not Match.</small>
+          {% if formerror.password_error %}
+          <div class="backend-p-err" style='color:red;'>
+            <p>{{formerror.password_error}}</p>
+          </div>
+          {%endif%}
+        </div>
+        <div class="form-group">
+          <input type='text' placeholder="First Name" onfocusout="checkF(this.value,'#fvalmsg','f')" onkeypress="checkF(this.value,'#fvalmsg','f')"
+            value='{{newuser.first_name}}' class='form-control {{first_name}}' required name='first_name' id='first_name'>
+          <small class="text-danger" id="fvalmsg" style="display:none">First Name Required</small>
+        </div>
+        <div class="form-group">
+          <input type='text' placeholder="Last Name" onfocusout="checkF(this.value,'#lvalmsg','l')" onkeypress="checkF(this.value,'#lvalmsg','l')"
+            value='{{newuser.last_name}}' class='form-control {{name_name}}' name='last_name' id='last_name'>
+          <small class="text-danger" id="lvalmsg" style="display:none">Last Name Required</small>
+          {% if formerror.name_error %}
+          <div class="backend-n-err" style='color:red;'>
+            <p>{{formerror.name_error}}</p>
+          </div>
+          {%endif%}
+        </div>
+        {%csrf_token%}
+        <div class="form-group">
+            <button disabled>Sign Up</button>
+            <div id="next">If you don't have an account <a href="/login/">Login Here.</a></div>
+        </div>
+  
+      </form>
+</div>
+    
+    <div class="animation-area">
+        <ul class="box-area">
+            <li class="fa fa-plus"></li>
+            <li></li>  
+            <li class="fa fa-plus"></li>
+            <li></li>
+            <li class="fa fa-plus"></li>
+            <li></li>
+            <li class="fa fa-plus"></li>
+            <li></li>
+            <li class="fa fa-plus"></li>
+            <li></li>
+        </ul>
+    </div>
+    <script src="/static/js/signup.js"></script>
+</body>
+</html>
