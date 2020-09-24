@@ -103,9 +103,9 @@ def login_view(request):
             return redirect('/')
         else:
             fe.message='Username/password error please provide correct credentials'
-            return render(request,'account/login_view.html',{'page_title':'Login-ElectronicsHub','formerror':fe})  
+            return render(request,'account/login.html',{'page_title':'Login-ElectronicsHub','formerror':fe})  
     else:
-        return render(request,'account/login_view.html',{'page_title':'Raven-Login','formerror':fe}) 
+        return render(request,'account/login.html',{'page_title':'Raven-Login','formerror':fe}) 
 @login_required(login_url='/login/')
 def search(request):         
     try:
