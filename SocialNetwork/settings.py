@@ -25,10 +25,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = My_SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["sbraven.herokuapp.com"]
-# ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -125,5 +125,9 @@ MEDIA_URL = "/media/"
 
 MEDIA_URL = "/storage/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "storage")
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+# AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY",'')
+# AWS_SECRET_ACCESS_KEY=os.environ.get("AWS_SECRET_KEY",'')
+# AWS_STORAGE_BUCKET_NAME='sbraven'
 
 django_heroku.settings(locals())

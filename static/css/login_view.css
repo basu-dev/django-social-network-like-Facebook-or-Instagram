@@ -7,12 +7,13 @@
   color:#c1bdbd;
 }
 body {
-  height: 100vh;
+  height: 95vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   background: #013244;
+  /* overflow: hidden; */
 }
 .form-Bg {
   box-shadow: 2px 2px 7px 3px rgba(17, 17, 17, 0.518);
@@ -325,6 +326,9 @@ small{
 @media(max-width: 750px){
     .form-Bg{
         box-shadow:none;
+    }
+    body{
+      height: 80vh;
     }
 }
 
