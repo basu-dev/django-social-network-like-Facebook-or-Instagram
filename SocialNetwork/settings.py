@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "stories",
     "Friends",
-    'gdstorage'
+    # 'gdstorage'
 ]
 
 MIDDLEWARE = [
@@ -127,9 +127,9 @@ MEDIA_URL = "/media/"
 
 MEDIA_URL = "/storage/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "storage")
-GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = os.path.join(BASE_DIR,"SocialNetwork","google_secret.json")
-print(GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE)
-GOOGLE_DRIVE_STORAGE_SERVICE_EMAIL = '735288285802-f5j0db22h3v7osiu09f5snnpfal69m8c.apps.googleusercontent.com'
+# GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = os.path.join(BASE_DIR,"SocialNetwork","google_secret.json")
+# print(GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE)
+# GOOGLE_DRIVE_STORAGE_SERVICE_EMAIL = '735288285802-f5j0db22h3v7osiu09f5snnpfal69m8c.apps.googleusercontent.com'
 # GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = '<base google drive path for file uploads>'
 # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 # AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY",'')
