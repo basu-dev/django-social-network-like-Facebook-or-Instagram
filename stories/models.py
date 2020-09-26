@@ -1,5 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+# from gdstorage.storage import GoogleDriveStorage
+import os
+# from SocialNetwork.settings import GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE
+
+# Define Google Drive Storage
+# print(GoogleDriveStorage)
+# gd_storage = GoogleDriveStorage(GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE)
 
 # Create your models here.
 class Post(models.Model):
