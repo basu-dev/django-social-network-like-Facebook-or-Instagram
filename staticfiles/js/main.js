@@ -370,3 +370,4 @@ function toggleNotification(){
 }
   document.querySelector('#navbarDropdown').addEventListener('click',toggleNotification);
 
+

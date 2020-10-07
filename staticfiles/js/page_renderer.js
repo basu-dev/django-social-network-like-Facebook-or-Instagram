@@ -186,4 +186,5 @@ function route(link) {
     link = `storydetail/${requiredid}`;
   }
   location.hash = `#${link}`;
+  console.log("hello")
 }
