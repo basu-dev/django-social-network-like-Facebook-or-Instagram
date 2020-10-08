@@ -367,6 +367,8 @@ function toggleNotification(){
     target.style.top=`-${target.clientHeight + 2 }px`;
     toggler.setAttribute('aria-expanded','false')
   }
-}
+};
+console.log("abc");
+
   document.querySelector('#navbarDropdown').addEventListener('click',toggleNotification);
 
