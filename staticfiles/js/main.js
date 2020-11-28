@@ -1,13 +1,12 @@
-
 "use strict";
-  let friendusername = "";
+let friendusername = "";
 let friendprofieloaded = false;
 let storydetailloaded = false;
 function loading(truth) {
   if (truth) {
-    $("#loading").css({"display":"block","opacity": "1",});
+    $("#loading").css({ display: "block", opacity: "1" });
   } else {
-    $("#loading").css({"opacity":"0","display": "none",});
+    $("#loading").css({ opacity: "0", display: "none" });
   }
 }
 function hideAndShow(hide, show) {
@@ -36,13 +35,13 @@ function loadFriends() {
   $.ajax({
     type: "GET",
     url: "/profile/api/fetch_friends",
-    success: function(response) {
+    success: function (response) {
       $(".friendtop").css("opacity", "1");
       $(".friendlistt").html(response);
     },
-    error: function(err) {
+    error: function (err) {
       toastr(err);
-    }
+    },
   });
 }
 
@@ -53,7 +52,7 @@ function loadMoreStories(value) {
     $.ajax({
       type: "GET",
       url: `/stories/get_more_stories/${lastId}/${firstid}`,
-      success: function(response) {
+      success: function (response) {
         $(`#${value}`).remove();
         let result = response.split("antxi");
         for (let i = 0; i < result.length; i++) {
@@ -67,9 +66,9 @@ function loadMoreStories(value) {
         loading();
         $(".stories").append(response);
       },
-      error: function(err) {
+      error: function (err) {
         toastr(err);
-      }
+      },
     });
 }
 function storeProfile() {
@@ -90,12 +89,12 @@ function loadNotifications() {
     $.ajax({
       type: "GET",
       url: "/api/get_notification",
-      success: function(response) {
+      success: function (response) {
         $(".notification_div").html(response);
       },
-      error: function(err) {
+      error: function (err) {
         toastr(err);
-      }
+      },
     });
   } else {
     $(".dropdown_menu").css("display", "none");
@@ -111,12 +110,12 @@ function loadMessanger(nothing, respon) {
   }
 }
 function lauchMessage(id, frmprofile) {
-   id = id ? id : frmprofile.split("msglaunch")[1];
+  id = id ? id : frmprofile.split("msglaunch")[1];
   loading(true);
   $.ajax({
     type: "GET",
     url: "/messages/api/get/" + id + "/",
-    success: function(response) {
+    success: function (response) {
       loading();
       $("#addedmessagebox").remove();
       $(".previous_messageareaa").css("display", "none");
@@ -125,16 +124,14 @@ function lauchMessage(id, frmprofile) {
       getMessage(id);
       arrangeElements();
     },
-    error: function(err) {
+    error: function (err) {
       toastr(err);
-    }
+    },
   });
 }
 
-
-
 //storyline
-$("#search").submit(function(e) {
+$("#search").submit(function (e) {
   e.preventDefault();
   const data = $(".searchbox").val();
   if (data.trim() == "") {
@@ -147,14 +144,14 @@ $("#search").submit(function(e) {
     type: "GET",
     url: `/search/?search_query=${data}`,
     data: data,
-    success: function(response) {
+    success: function (response) {
       $(".searchresult").html(response);
     },
-    error: function(err) {
+    error: function (err) {
       $(".searchresult").css("display", "none");
       $(".shadow").css("display", "none");
       toastr(err);
-    }
+    },
   });
 });
 function closeSearch() {
@@ -167,12 +164,12 @@ function closeSearch() {
 let sidenavOpened = false;
 function toggleSidenav() {
   if (sidenavOpened) {
-    document.removeEventListener('click',toggleSidenav)
-    $(".sidenav").css({ top: "-80px", opacity: "0" });
+    document.removeEventListener("click", toggleSidenav);
+    $(".sidenav").css({ top: "-300px", opacity: "0" });
   } else {
-    setTimeout(()=>{
-      document.addEventListener('click',toggleSidenav);
-    })
+    setTimeout(() => {
+      document.addEventListener("click", toggleSidenav);
+    });
     $(".sidenav").css({ top: "50px", opacity: "1" });
   }
   sidenavOpened = !sidenavOpened;
@@ -182,13 +179,13 @@ function getFriendSuggestions() {
   $.ajax({
     type: "GET",
     url: "/profile/api/friend_suggestions",
-    success: function(response) {
+    success: function (response) {
       loading();
       openSidebar("Friend Suggestions", response);
     },
-    error: function(err) {
+    error: function (err) {
       toastr(err);
-    }
+    },
   });
 }
 function openSidebar(title, response) {
@@ -201,24 +198,23 @@ function openSidebar(title, response) {
   $(".sideitem").html(response);
 }
 function closeSidebar() {
-  let sidebar=$(".sidebar");
-  const width=sidebar[0].clientWidth;
-  console.log(sidebar,width)
-  sidebar[0].style.right=`-${width +2}px`;
-  
+  let sidebar = $(".sidebar");
+  const width = sidebar[0].clientWidth;
+  console.log(sidebar, width);
+  sidebar[0].style.right = `-${width + 2}px`;
 }
 function getFriendRequests() {
   loading(true);
   $.ajax({
     type: "GET",
     url: "/profile/api/friend_requests",
-    success: function(response) {
+    success: function (response) {
       loading();
       openSidebar("Friend Requests", response);
     },
-    error: function(err) {
+    error: function (err) {
       toastr(err);
-    }
+    },
   });
 }
 function getRequestSent() {
@@ -226,13 +222,13 @@ function getRequestSent() {
   $.ajax({
     type: "GET",
     url: "/profile/api/sent_requests",
-    success: function(response) {
+    success: function (response) {
       loading();
       openSidebar("Sent Requests", response);
     },
-    error: function(err) {
+    error: function (err) {
       toastr(err);
-    }
+    },
   });
 }
 
@@ -242,17 +238,17 @@ function ajaxcall(method, url, cb, data, dataType) {
     url: url,
     data: data,
     dataType: dataType,
-    success: function(response) {
+    success: function (response) {
       cb("", response);
     },
-    error: function(err) {
+    error: function (err) {
       toastr(err);
-    }
+    },
   });
 }
 let errortimer;
-function toastr(err, title, message,notError,showAsItIs) {
-   $(".toastr").toggleClass("toastr-success", notError);
+function toastr(err, title, message, notError, showAsItIs) {
+  $(".toastr").toggleClass("toastr-success", notError);
   try {
     clearInterval(errortimer);
   } catch (e) {}
@@ -262,56 +258,72 @@ function toastr(err, title, message,notError,showAsItIs) {
     $(".toastr-title").html("No Internet");
     $(".toastr-msg").html("Please Check Your Connection.");
   } else {
-    $(".toastr-title").html(title ? title :showAsItIs?"": `${err.status}  Server Error`);
+    $(".toastr-title").html(
+      title ? title : showAsItIs ? "" : `${err.status}  Server Error`
+    );
     $(".toastr-msg").html(
-      message ? message :showAsItIs?"":  `Some Error Occured We are fixing it.`
+      message
+        ? message
+        : showAsItIs
+        ? ""
+        : `Some Error Occured We are fixing it.`
     );
   }
   $(".toastr").css({ right: "1rem", opacity: 1 });
 }
 function closeError() {
   clearInterval(errortimer);
-  $(".toastr").css({right: "-450px",opacity:0});
+  $(".toastr").css({ right: "-450px", opacity: 0 });
 }
-function darkmode(check) {
-  if (check === true) {
-    $("#darkmodecss")[0].disabled = false;
-    localStorage.setItem("dark", "true");
-  } else {
-    $("#darkmodecss")[0].disabled = true;
 
-    localStorage.setItem("dark", "false");
-  }
-}
 function logout() {
   e.preventDefault();
   sessionStorage.clear();
   // e.unbind();
 }
-$("#logout").click(function(e) {
+$("#logout").click(function (e) {
   e.preventDefault();
   sessionStorage.clear();
   $("form[action='/logout/']").submit();
 });
-function toggle(toggleValue) {
-  if (toggleValue == "true") {
-    darkmode(true);
-    $(".knob").css({
-      transform: "translate3d(13px,0,0)",
-      "background-color": "rgb(26, 115, 232)"
-    });
-    $("#bar").css("background-color", "rgb(141, 185, 244)");
-    $(".knob")[0].attributes.checked.value = "false";
-  } else {
-    darkmode(false);
-    $(".knob").css({
-      transform: "translate3d(0px,0,0)",
-      "background-color": "white"
-    });
 
-    $(".knob")[0].attributes.checked.value = "true";
-    $("#bar").css("background-color", "white");
+function makeDark() {
+  $("#matrixa-theme")[0].disabled = true;
+  $("#dark-theme")[0].disabled = false;
+  saveTheme("dark");
+}
+function theme(themeColor) {
+  localStorage.setItem("theme", themeColor);
+  applyTheme();
+}
+
+function applyTheme() {
+  let themeColor = localStorage.getItem("theme");
+  if(!themeColor){
+    theme('matrixa');
+    return false;
   }
+  $("#darker").removeClass("darker-active");
+  $("#lighter").removeClass("lighter-active");
+  $("#matrixa").removeClass("darker-active");
+    switch (themeColor) {
+      case "dark":
+        $("#matrixa-theme")[0].disabled = true;
+        $("#dark-theme")[0].disabled = false;
+        $("#darker").addClass("darker-active");
+        break;
+      case "light":
+        $("#matrixa-theme")[0].disabled = true;
+        $("#dark-theme")[0].disabled = true;
+        $("#lighter").addClass("lighter-active");
+        break;
+      case "matrixa":
+        $("#matrixa-theme")[0].disabled = false;
+        $("#dark-theme")[0].disabled = true;
+        $("#matrixa").addClass("darker-active");
+        break;
+    }
+  
 }
 const modal = document.querySelector(".confirmmodal");
 const ms = modal.style;
@@ -345,30 +357,26 @@ function openModal(title, message, yesCb, noCb) {
     mo = "false";
   }
 }
-function toggleNotification(){
-  const toggler=document.querySelector('#navbarDropdown');
-  const isShown=toggler.getAttribute('aria-expanded');
-  const target=document.querySelector('.dropdown-notification');
-  if(isShown=='false'){
+function toggleNotification() {
+  const toggler = document.querySelector("#navbarDropdown");
+  const isShown = toggler.getAttribute("aria-expanded");
+  const target = document.querySelector(".dropdown-notification");
+  if (isShown == "false") {
     // target.style.display='block';
-    console.log(target)
-    setTimeout(_=>{
-
-    })
-    setTimeout(()=>{
-      $(".dropdown-notification").css("top","50px");
-      document.addEventListener('click',toggleNotification);
-    })
-    toggler.setAttribute('aria-expanded','true')
-  }
-  else{
-    document.removeEventListener('click',toggleNotification)
+    console.log(target);
+    setTimeout((_) => {});
+    setTimeout(() => {
+      $(".dropdown-notification").css("top", "50px");
+      document.addEventListener("click", toggleNotification);
+    });
+    toggler.setAttribute("aria-expanded", "true");
+  } else {
+    document.removeEventListener("click", toggleNotification);
     // target.style.display='none';
-    target.style.top=`-${target.clientHeight + 2 }px`;
-    toggler.setAttribute('aria-expanded','false')
+    target.style.top = `-${target.clientHeight + 2}px`;
+    toggler.setAttribute("aria-expanded", "false");
   }
-};
-console.log("abc");
-
-  document.querySelector('#navbarDropdown').addEventListener('click',toggleNotification);
-
+}
+document
+  .querySelector("#navbarDropdown")
+  .addEventListener("click", toggleNotification);

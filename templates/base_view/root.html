@@ -8,7 +8,8 @@
   <title>{{page_title}}</title>
   <link rel="shortcut icon" href="/static/favicon.ico"/>
   <link rel='stylesheet' type="text/css" href='/static/css/site.css'>
-  <link rel='stylesheet' disabled="true" id="darkmodecss" href='/static/css/darkmode.css'>
+  <link rel='stylesheet' disabled="true" id="dark-theme" href='/static/css/darkmode.css'>
+  <link rel='stylesheet'  id="matrixa-theme" disabled="true" href='/static/css/matrixamode.css'>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
@@ -108,14 +109,13 @@
     <div class="a" onclick="getRequestSent()">
       Request Sent
     </div>
-    <div class="a" id="dark" onclick="toggle(this.children[1].children[0].children[0].attributes.checked.value)">
-      <span>Dark Mode</span>
-      <div class="checkbox">
-        <div class="bar" toggled="false">
-          <div class="knob" checked="true">
-            <div id='knobshadow'></div>
-          </div>
-        </div>
+    <div class="a" id="dark">
+      <span>Themes</span>
+
+      <div class="theme-options">
+        <div id="lighter" onclick="theme('light')">Light Mode</div>
+        <div id="darker" onclick="theme('dark')">Dark Mode</div>
+        <div id="matrixa" onclick="theme('matrixa')">Matrixa Mode</div>
       </div>
     </div>
   </div>
@@ -204,7 +204,8 @@
       <div class="toastr-msg"></div>
     </div>
     <script type="text/javascript" src='/static/js/jquery.js'></script>
-    <script src="/static/js/page_renderer.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/chibi/3.0.9/chibi-min.js" integrity="sha512-mBJw9pteXvnG0k6Xs+Lrh0hpIQVr0WgpO+tOqzNMb9kud9G7S1orf3pDu0or4oEUst9I4XG2qBGLktMZH9F1ew==" crossorigin="anonymous"></script> -->
+    <script defer src="/static/js/page_renderer.js"></script>
     {% block script%}
     {%endblock%}
 </body>

@@ -3,12 +3,7 @@ $(document).ready(function () {
   let scripts=['main.js','message.js','likecomment.js','friendreq.js','friend_profile.js'];
   scripts=scripts.map(x=>`<script src="/static/js/${x}"></script>`);
   scripts.forEach(x=>$("body").append(x));
-  try {
-   const value = localStorage.getItem("dark");
-    if (value == "true") {
-      toggle("true");
-    }
-  } catch (e) {}
+  applyTheme();
   setTimeout(()=>{
     loadFriends();
     loadMessanger();

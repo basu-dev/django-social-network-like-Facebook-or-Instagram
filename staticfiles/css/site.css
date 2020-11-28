@@ -1,4 +1,4 @@
-/* @import "/static/css/bootstrap-extract.css"; */
+
 @import "/static/css/bootstrap.min.css";
 :root {
   --background-colorfirst: #dadee6;
@@ -106,7 +106,7 @@ body {
 .sidenav {
   user-select: none;
   position: fixed;
-  top: -80px;
+  top: -300px;
   right: 17px;
   z-index: 4;
   background-color: var(--backgroundsecond);
@@ -118,7 +118,42 @@ body {
   box-shadow: 2px 2px 5px var(--boxshadowfirst);
   opacity: 0;
   transition:.3s ease-out;
-} /* ............root............................ */
+  width:150px;
+}
+#dark{
+  position: relative;
+}
+.theme-options{
+  display: block;
+  position: absolute;
+  /* right: 0; */
+  top: 100%;
+  background: var(--background-colorfirst);
+  padding: .5rem;
+  width: 150px;
+  left: -.5rem;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 2px 2px 5px var(--boxshadowfirst);
+}
+#lighter,#darker,#matrixa{
+  border-radius:3px;
+  padding-left:.5rem;
+  transition: .3s;
+  margin-bottom:.1rem;
+}
+#lighter:hover, .darker-active{
+  background: white;
+  color:black;
+}
+#darker:hover, .lighter-active{
+  background: #282727;
+  color:white;
+}
+#matrixa:hover{
+  background:#013244;
+  color:white;
+}
+ /* ............root............................ */
 .column {
   height: calc(100vh - 50px);
   overflow-x: hidden;
@@ -137,7 +172,7 @@ body {
   border: none !important;
   box-shadow: 1px 1px 4px var(--boxshadowfirst);
   z-index: 4;
-  border-radius: 10px;
+  border-radius: 5px;
   transition:.3s ease-out;
 }
 .storylinee {
