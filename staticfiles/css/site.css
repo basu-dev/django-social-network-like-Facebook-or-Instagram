@@ -560,7 +560,8 @@ input[type="search"] {
   justify-content: center;
   cursor: pointer;
   background-color: #d9e4f5;
-  background: linear-gradient(315deg, #d9e4f5 0%, #f5e3e6 74%);}
+  background: linear-gradient(315deg, #d9e4f5 0%, #f5e3e6 74%);
+}
 .storyimage {
   object-fit: cover;
   max-height: 500px;
@@ -570,6 +571,8 @@ input[type="search"] {
 
 .storydetailimage {
   width: 100%;
+  background: linear-gradient(315deg, #d9e4f5 0%, #f5e3e6 74%);
+  min-height: 300px;
 }
 .editimg {
   object-fit: contain;
