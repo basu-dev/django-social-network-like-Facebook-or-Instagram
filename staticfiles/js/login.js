@@ -3,10 +3,9 @@ function showButton() {
     document.getElementsByName("username")[0].validity.valid &&
     document.getElementsByName("password")[0].validity.valid
   ) {
-    console.log("Valid")
     document.getElementsByTagName("button")[0].disabled = false;
   } else {
-    console.log("INvalid")
+    
     document.getElementsByTagName("button")[0].disabled = true;
   }
 }

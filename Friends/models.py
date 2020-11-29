@@ -39,7 +39,7 @@ def get_mutual_friends(id,sid):
     return a
 
 class Profile(models.Model):
-    profile_picture = models.ImageField(upload_to = 'user-profile/',default='default_pp.png')
+    profile_picture = models.ImageField(upload_to = 'user-profile/',default='avatar.svg')
     user = models.OneToOneField(User,on_delete = models.CASCADE,null=True)
     age = models.IntegerField(null=True)
     job = models.CharField(max_length = 100,null=True)

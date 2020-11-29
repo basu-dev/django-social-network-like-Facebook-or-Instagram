@@ -3,7 +3,7 @@
     {% for friend in friend_list %}
     <div class='{{friend.id}} friendtile' id="{{friend.username}}" onclick="route('profile'+'/'+this.id)">
         <div>
-            <img class='pp' height=30 width=30 src='{{friend.profile.profile_picture.url}}'>
+            <img onerror="this.error=null; this.src='/static/avatar.svg'" class='pp' height=30 width=30 src='{{friend.profile.profile_picture.url}}'>
         </div>
         <div class="friendname">{{friend.first_name}} {{friend.last_name}}</div>
     </div>

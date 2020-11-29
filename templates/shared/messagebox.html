@@ -4,7 +4,7 @@
     <div class='card'>
       <div class='card'>
         <div class='messageusername card-title mt-1 mb-1'>
-          <span class="a" onclick="route(this.attributes.href.value)"  href='/profile/{{request.receiver.username}}' style="text-decoration: none;"> <img class=' ml-2 pp'
+          <span class="a" onclick="route(this.attributes.href.value)"  href='/profile/{{request.receiver.username}}' style="text-decoration: none;"> <img onerror="this.error=null; this.src='/static/avatar.svg'" class=' ml-2 pp'
               height=33 width=33 src='{{request.receiver.profile.profile_picture.url}}'>
             {{request.receiver.first_name}} {{request.receiver.last_name}}</span>
           <span class="cross" onclick="remove(this)">X</span>

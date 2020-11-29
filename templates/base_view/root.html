@@ -76,7 +76,7 @@
       </ul>
       <ul class="space_between_fle navbar-nav">
         <li class="nav-item">
-          <a class="nav-link"><img class='pp navpp' ondblclick="loadMyProfile('',true)" onclick="route('my_profile')"
+          <a class="nav-link"><img onerror="this.error=null; this.src='/static/avatar.svg'" class='pp navpp' ondblclick="loadMyProfile('',true)" onclick="route('my_profile')"
               height=32 width=32 src='{{request.user.profile.profile_picture.url}}'></a>
         </li>
       </ul>
@@ -98,7 +98,7 @@
   <div class="sidenav">
     <form method='POST' action='/logout/'>
       {%csrf_token%}
-      <button type='submit' id="logout" class="nobtn a">Logout</button>
+      <button type='submit' id="logout" class="nobtn a" >Logout</button>
     </form>
     <div class="a" onclick="getFriendSuggestions()">
       Friend Suggestion

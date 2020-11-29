@@ -3,7 +3,7 @@
 <p class="p-1">Click on Message Tab above to <spanc class="highlight">hide and show</spanc> Messages. Click on Refresh Icon to refresh messages.
 </p>
 <p class="p-1"><span onclick="getFriendSuggestions()" class="highlight">Click Here</span> to get some friend suggestions.</p>
-<p class="p-1">Different <span class="highlight">Themes</span>are also available. To enabled different click on 
+<p class="p-1">Different <span class="highlight">Themes </span>are also available. To enabled different click on 
 <span class='highlight' onclick="toggleSidenav()">Menu</span> Icon and enable it.</p>
 {%endif%}
 <div id='messagebox'>
@@ -11,7 +11,7 @@
         {%for i in message_body%}
         <div class="friendtile messagebody {{i.user.id}}" onclick="lauchMessage(this.id)" id="{{i.user.id}}">
             <div style="display: flex;">
-                <img src="{{i.user.profile.profile_picture.url}}">
+                <img onerror="this.error=null; this.src='/static/avatar.svg'" src="{{i.user.profile.profile_picture.url}}">
                 <div class="messageuser">
                     {%if not i.seen%}
                     <div class="username messagebody-unseen">

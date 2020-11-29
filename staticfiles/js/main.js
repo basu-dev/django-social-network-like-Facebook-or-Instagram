@@ -200,7 +200,6 @@ function openSidebar(title, response) {
 function closeSidebar() {
   let sidebar = $(".sidebar");
   const width = sidebar[0].clientWidth;
-  console.log(sidebar, width);
   sidebar[0].style.right = `-${width + 2}px`;
 }
 function getFriendRequests() {
@@ -300,7 +299,7 @@ function theme(themeColor) {
 function applyTheme() {
   let themeColor = localStorage.getItem("theme");
   if(!themeColor){
-    theme('matrixa');
+    theme('light');
     return false;
   }
   $("#darker").removeClass("darker-active");
@@ -308,8 +307,8 @@ function applyTheme() {
   $("#matrixa").removeClass("darker-active");
     switch (themeColor) {
       case "dark":
-        $("#matrixa-theme")[0].disabled = true;
         $("#dark-theme")[0].disabled = false;
+        $("#matrixa-theme")[0].disabled = true;
         $("#darker").addClass("darker-active");
         break;
       case "light":
@@ -363,7 +362,6 @@ function toggleNotification() {
   const target = document.querySelector(".dropdown-notification");
   if (isShown == "false") {
     // target.style.display='block';
-    console.log(target);
     setTimeout((_) => {});
     setTimeout(() => {
       $(".dropdown-notification").css("top", "50px");

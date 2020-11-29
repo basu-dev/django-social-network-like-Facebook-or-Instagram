@@ -51,7 +51,7 @@ class Notification(models.Model):
         self.seen = True
         self.save()
 def get_last_ten(user):
-    no=Notification.objects.filter(user=user).order_by('-id')[:5]
+    no=Notification.objects.filter(user=user).order_by('-id')[:7]
     return no
 def set_notification(user,body,seen,url):
     new_notif=Notification()

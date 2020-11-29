@@ -4,7 +4,7 @@
     <div class='card-body story'>
         <div class='card-title pb-2'>
             <div>
-                <img class='pp mr-2 ml-2' height=30 width=30 src='{{story.user.profile.profile_picture.url}}'>
+                <img onerror="this.error=null; this.src='/static/avatar.svg'" class='pp mr-2 ml-2' height=30 width=30 src='{{story.user.profile.profile_picture.url}}'>
             </div>
             <div><span class="a" onclick="loadUserProfile($(this))" class="mr-2"
                     href='/profile/{{story.user.username}}/'>{{story.user.first_name}}
@@ -49,7 +49,7 @@
         <div class='commentboxx'>
             <div class='media card-body'>
                 <span class="a" onclick="route(this.attributes.href.value)" href="/profile/{{comment.user.username}}">
-                    <img class='mediaimg pp' src='{{comment.user.profile.profile_picture.url}}'>
+                    <img onerror="this.error=null; this.src='/static/avatar.svg'" class='mediaimg pp' src='{{comment.user.profile.profile_picture.url}}'>
                 </span>
                 <div class='cmt'><span onclick="route(this.attributes.href.value)" href="/profile/{{comment.user.username}}"
                         class="a cmtuser">{{comment.user.first_name}} {{comment.user.last_name}}</span>
@@ -63,7 +63,7 @@
     {%for like in story.like%}
     <div onclick="route(this.getAttribute('href'))" href="/profile/{{like.user.username}}/">
         <div class="likers">
-            <img src="{{like.user.profile.profile_picture.url}}" height="30" width="30" class="pp">
+            <img onerror="this.error=null; this.src='/static/avatar.svg'" src="{{like.user.profile.profile_picture.url}}" height="30" width="30" class="pp">
             <div  class="likername">{{like.user.first_name}} {{like.user.last_name}}</div>
         </div>
     </div >

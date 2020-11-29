@@ -4,7 +4,7 @@
         <div class='card-title pb-2'>
             <div onclick="route(this.nextElementSibling.firstChild.attributes.href.value
             )">
-                <img class='pp mr-2' height=30 width=30 src='{{story.user.profile.profile_picture.url}}'>
+                <img onerror="this.error=null; this.src='/static/avatar.svg'" class='pp mr-2' height=30 width=30 src='{{story.user.profile.profile_picture.url}}'>
             </div>
             <div><span class="a" onclick="route(this.attributes.href.value)" class="mr-2"
                     href='/profile/{{story.user.username}}'>{{story.user.first_name}}
@@ -41,7 +41,7 @@
         <div class='car'>
             <div class='media'>
                 <span class="a" onclick="route(this.attributes.href.value)" href="/profile/{{comment.user.username}}">
-                    <img class='mediaimg pp' src='{{comment.user.profile.profile_picture.url}}'>
+                    <img onerror="this.error=null; this.src='/static/avatar.svg'" class='mediaimg pp' src='{{comment.user.profile.profile_picture.url}}'>
                 </span>
                 <div class='cmt'><span onclick="route(this.attributes.href.value)" href="/profile/{{comment.user.username}}"
                         class="a cmtuser">{{comment.user.first_name}}

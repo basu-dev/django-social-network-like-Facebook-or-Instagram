@@ -1,7 +1,7 @@
 {%for user in likers%}
 <div onclick="route(this.attributes.href.value)" href="/profile/{{user.username}}/">
     <div class="likers">
-        <img src="{{user.profile.profile_picture.url}}" height="30" width="30" class="pp">
+        <img onerror="this.error=null; this.src='/static/avatar.svg'" src="{{user.profile.profile_picture.url}}" height="30" width="30" class="pp">
         <div class="likername">{{user.first_name}} {{user.last_name}}</div>
     </div>
 </div >

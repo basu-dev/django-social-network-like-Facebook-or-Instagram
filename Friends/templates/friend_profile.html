@@ -3,7 +3,7 @@
 <div class='card text-center mb-2'>
     <div class="h4 card-title">{{user.first_name}} {{user.last_name}}</div>
     <div class="card-body">
-        <img class='pp' alt="loading" height=350 width="350" src='{{user.profile.profile_picture.url}}'>
+        <img onerror="this.error=null; this.src='/static/avatar.svg'" class='pp' alt="loading" height=350 width="350" src='{{user.profile.profile_picture.url}}'>
     </div>
     <div class="card-title">
         {{user.username}}

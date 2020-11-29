@@ -72,6 +72,14 @@ def signup(request):
             newuser.set_password(newuser.password1)
             newuser.save()
             pp=Profile()
+            notif=Notification()
+            notif.user=newuser
+            notif.body="Welcome to Raven! Enjoy Your Journey With Us."
+            notif.save()
+            not2=Notification()
+            not2.user=newuser
+            not2.body="Add a profile picture. Edit your profile and add some friends to start.Click here."
+            not2.save()
             pp.user=newuser
             pp.save()
             return redirect('/login/')

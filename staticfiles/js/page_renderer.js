@@ -7,12 +7,14 @@ $(document).ready(function () {
   setTimeout(()=>{
     loadFriends();
     loadMessanger();
+    
   })
   if (location.hash) {
     hashchanged();
   } else {
     loadStories();
   }
+  
 });
 let navppclicked = false;
 let storiesloaded = false;

@@ -30,9 +30,7 @@
     box-shadow: 3px 3px 5px var(--boxshadowfirst);
     border:1px solid var(--backgroundsecond);
   }
-  .dropdown-ite:hover {
-    background-color: rgba(46, 75, 109, 0.568);
-  }
+
   .btn-link {
     text-decoration: none;
     color: rgb(241, 236, 236);
