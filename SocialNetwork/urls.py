@@ -75,6 +75,7 @@ urlpatterns = [
     path('api/messagecheck/',apiviews.messagecheck),
     path("api/stories/",apiviews.stories),
     path("api/get_notification",apiviews.get_notification,name="notifications"),
+    path('', include('pwa.urls'))
 
     
 ]

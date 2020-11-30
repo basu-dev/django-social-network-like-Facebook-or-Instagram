@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "Friends",
     'cloudinary_storage',
     'cloudinary',
+    'pwa'
     # 'gdstorage'
 ]
 
@@ -138,3 +139,40 @@ CLOUDINARY_STORAGE = {
     'API_KEY': '389368883326524',
     'API_SECRET': '-hUkaLSbLj6nmd5-tmPDGtaP45U'
 }
+# for pwa
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'serviceworker.js')
+
+PWA_APP_NAME = 'Raven'
+PWA_APP_DESCRIPTION = "Raven"
+PWA_APP_THEME_COLOR = '#013244'
+PWA_APP_BACKGROUND_COLOR = '#086384'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+	{
+		'src':'https://res.cloudinary.com/sbraven/image/upload/v1606766517/static/144_fhnyii.png',
+		'sizes': '144x144'
+	}
+]
+PWA_APP_ICONS_APPLE = [
+	{
+		'src': 'https://res.cloudinary.com/sbraven/image/upload/v1606766517/static/144_fhnyii.png',
+		'sizes': '144x144'
+	},
+    {
+        'src': 'https://res.cloudinary.com/sbraven/image/upload/v1606766518/static/512_p0mdw2.png',
+        'sizes': '512x512'
+    }
+]
+PWA_APP_SPLASH_SCREEN = [
+	{
+		'src': 'https://res.cloudinary.com/sbraven/image/upload/v1606766518/static/512_p0mdw2.png',
+		'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+	}
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'
+
