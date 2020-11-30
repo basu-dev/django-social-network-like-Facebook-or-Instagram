@@ -17,7 +17,7 @@
             </span>
             <div class="imagefield" id="likea{{story.id}}likea" ondblclick="like(this.id,1)">
                 {%for image in story.images%}
-                <img src="/storage/{{image.url}}" id="{{image.id}}" class="storyimage storyimage{{story.id}}">
+                <img src="{{cloudinary_url}}{{image.url}}" id="{{image.id}}" class="storyimage storyimage{{story.id}}">
                 {%endfor%}
             </div>
         </div>

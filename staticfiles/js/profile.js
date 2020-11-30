@@ -79,7 +79,7 @@ function editbtn(div) {
   try {
     let imageId = $(".imageurlhide" + storyId).attr("id");
     url = url[1].split("</p>")[0];
-    $("#editimage").attr("src", `/storage/post-images/${url}`);
+    $("#editimage").attr("src", `https://res.cloudinary.com/sbraven/image/upload/v1/storage/post-images/${url}`);
     $("#imageId").attr("value", imageId);
   } catch (e) {
     console.log(e);

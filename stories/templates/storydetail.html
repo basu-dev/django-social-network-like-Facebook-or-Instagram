@@ -1,4 +1,4 @@
-
+{% load cloudinary %}
 {%if story%}
 <div class='card mb-2 pb-1'>
     <div class='card-body story'>
@@ -13,7 +13,7 @@
         <pre class='card-text storybody text-justify'>{{story.body}}</pre>
         <div class="imagefield" id="likea{{story.id}}likea" ondblclick="like(this.id,1)">
             {%for image in story.images%}
-            <img src="/storage/{{image.url}}" class="storydetailimage">
+            <img src="{{cloudinary_url}}{{image.url}}" class="storydetailimage">
             {%endfor%}
         </div>
     </div>

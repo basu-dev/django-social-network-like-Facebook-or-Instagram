@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Q
 from stories.models import *
+from cloudinary.models import CloudinaryField
 # Create your models here.
 class Friend_request(models.Model):
     sender = models.IntegerField()

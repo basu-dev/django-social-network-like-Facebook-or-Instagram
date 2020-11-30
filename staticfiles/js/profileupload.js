@@ -5,6 +5,7 @@ let ppblob = null;
 let storyblob = null;
 let editblob = null;
 let destin;
+const cloudinary_url = 'https://res.cloudinary.com/sbraven/image/upload/v1/';
 function showImagePreview(id, destination, showdiv, showcancelicon) {
   destin=destination;
   try {
@@ -95,12 +96,12 @@ $("#ppform").submit(function (e) {
       inputelem[0].value = "";
      let  pp = response.picture;
       $(".profile_picture_loading").css("z-index", "-100");
-      $(".profileimagestory").attr("src", "/storage/" + response.picture);
-      $(".navpp").attr("src", "/storage/" + response.picture);
+      $(".profileimagestory").attr("src", cloudinary_url + response.picture);
+      $(".navpp").attr("src", cloudinary_url + response.picture);
       let story = getStoryWithImage(
         response,
         " added a profile picture.",
-        `/storage/${pp}`
+        `${cloudinary_url}${pp}`
       );
       $(".profilestoriesappend").prepend(story);
     },
@@ -198,11 +199,11 @@ $("#update_story_form").submit(function (e) {
         try {
           $(`.storyimage${response.id}`).attr(
             "src",
-            `/storage/${response.picture}`
+            `${cloudinary_url}${response.picture}`
           );
         } catch (e) {
           var imgfield = ` <div class="imagefield" id="likea${response.id}likea" ondblclick="like(this.id,1)">
-          <img src="/storage/${response.picture}" class="storyimage storyimage${response.id}">
+          <img src="${cloudinary_url}${response.picture}" class="storyimage storyimage${response.id}">
           </div>`;
           $(`#likea${response.id}likea`).replaceWith(imgfield);
         }
@@ -216,6 +217,7 @@ $("#update_story_form").submit(function (e) {
     },
   });
 });
+
 const resizeTextArea = (event) => {
   let enterCount = 2;
   let element = event.target;
@@ -250,7 +252,7 @@ function textareaFocused(element, focused) {
 function getStoryWithImage(response, storytype, pp) {
   if (response.picture) {
     var imgfield = ` <div class="imagefield" id="likea${response.id}likea" ondblclick="like(this.id,1)">
-  <img src="/storage/${response.picture}" class="storyimage storyimage${response.id}">
+  <img src="${cloudinary_url}${response.picture}" class="storyimage storyimage${response.id}">
   </div>`;
   } else {
     var imgfield = "";

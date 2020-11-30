@@ -43,7 +43,7 @@ def check(request):
         post.storytype=" updated profile picture "
         post.save()
         postimage=PostImage()
-        postimage.url=request.FILES['photo']
+        postimage.url=profile.profile_picture
         postimage.post=post
         postimage.save()
         add_user_to_post(post,request.user)
@@ -55,8 +55,6 @@ def check(request):
             "picture":str(postimage.url),
             "status":post.body
         }
-        fss=FileSystemStorage()
-        fss.save("user-profile/"+request.FILES['photo'].name,request.FILES['photo'])
         return JsonResponse(returndata)
  
 urlpatterns = [

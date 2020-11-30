@@ -16,7 +16,10 @@
         </span>
         <div class="imagefield" ondblclick="like(this.id,1)" id="likea{{story.id}}likea">
             {%for image in story.images%}
-            <img src="/storage/{{image.url}}" class="storyimage">
+            {%load cloudinary%}
+            
+            <img src='{{cloudinary_url}}{{image.url}}' data-src="file" class="storyimage">
+
             {%endfor%}
         </div>
     </div>
