@@ -35,3 +35,4 @@ whitenoise==5.2.0
 wrapt==1.11.2
 cloudinary==1.23.0
 django-cloudinary-storage==0.3.0
+django_pwa==1.0.10
