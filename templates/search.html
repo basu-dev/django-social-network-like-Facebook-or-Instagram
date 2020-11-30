@@ -8,7 +8,7 @@
 <div class="messagebody messagebody{{user.id}}">
     <div style="display: flex;">
         <div class="a" href='/profile/{{user.username}}' onclick="route(this.attributes.href.value)">
-            <img src="{{user.profile.profile_picture.url}}">
+            <img onerror="this.error=null; this.src='/static/avatar.svg'" src="{{user.profile.profile_picture.url}}">
         </div>
         <div class="a" href='/profile/{{user.username}}' onclick="route(this.attributes.href.value)">
             <div class="messageuser">
