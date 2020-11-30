@@ -140,7 +140,7 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': '-hUkaLSbLj6nmd5-tmPDGtaP45U'
 }
 # for pwa
-PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'serviceworker.js')
+# PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'serviceworker.js')
 
 PWA_APP_NAME = 'Raven'
 PWA_APP_DESCRIPTION = "Raven"
