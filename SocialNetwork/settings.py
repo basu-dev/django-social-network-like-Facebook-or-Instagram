@@ -120,7 +120,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 # MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/storage/"
 # MEDIA_ROOT = 'cloudinary_storage.storage.MediaCloudinaryStorage'
@@ -129,18 +129,14 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 django_heroku.settings(locals())
-cloudinary.config( 
-  cloud_name = "sbraven", 
-  api_key = "389368883326524", 
-  api_secret = "-hUkaLSbLj6nmd5-tmPDGtaP45U" 
-)
+
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'sbraven',
     'API_KEY': '389368883326524',
     'API_SECRET': '-hUkaLSbLj6nmd5-tmPDGtaP45U'
 }
 # for pwa
-# PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'serviceworker.js')
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'serviceworker.js')
 
 PWA_APP_NAME = 'Raven'
 PWA_APP_DESCRIPTION = "Raven"

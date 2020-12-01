@@ -1,58 +1,47 @@
-const cacheName='assets';
-const cacheAssets=[
+// Base Service Worker implementation.  To use your own Service Worker, set the PWA_SERVICE_WORKER_PATH variable in settings.py
+
+var staticCacheName = "django-pwa-v" + new Date().getTime();
+var filesToCache = [
     './',
-    'static/css/site.css',
-    'static/css/boostrap.min.css',
-    'static/css/matrixamode.css',
-    'static/css/darkmode.css',
-    'static/js/jquery.js',
-    'static/js/main.js',
-    'static/js/page_renderer.js',
-    'static/js/profile.js',
-    'static/js/profileupload.js',
-    'static/js/friend_profile.js',
-    'static/js/friendreq.js',
-    'static/js/login.js',
-    'static/js/storydetail.js',
-    'static/js/likecomment.js',
-    'static/js/signup.js',
-    'static/js/sw.js',
+    '/offline/',
+    'https://res.cloudinary.com/sbraven/image/upload/v1606766517/static/144_fhnyii.png',
+    'https://res.cloudinary.com/sbraven/image/upload/v1606766518/static/512_p0mdw2.png',
+];
 
-
-
-]
- 
-self.addEventListener("install", async (e) => {
-  const cache = await caches.open(cacheName);
-  await cache.addAll(cacheAssets);
-  return self.skipWaiting()
-});
-self.addEventListener("activate", (e) => {
-  self.clients.claim();
-});
-self.addEventListener("fetch", async (e) => {
-  const req = e.request;
-  const url = new URL(req.url);
-  if (url.origin == location.origin) {
-    e.respondWith(cacheFirst(req));
-  } else {
-    e.respondWith(networkAndCache(req));
-  }
+// Cache on install
+self.addEventListener("install", event => {
+    this.skipWaiting();
+    event.waitUntil(
+        caches.open(staticCacheName)
+            .then(cache => {
+                return cache.addAll(filesToCache);
+            })
+    )
 });
 
-const cacheFirst = async (req) => {
-  const cache = await caches.open(cacheName);
-  const cached = await cache.match(req);
-  return cached || fetch(req);
-};
-const networkAndCache = async (req) => {
-  const cache = await caches.open(cacheName);
-  try {
-    const fresh = await fetch(reg);
-    await cache.put(req, fresh.clone());
-    return fresh;
-  } catch (e) {
-    const cached = await cache.match(req);
-    return cached;
-  }
-};
+// Clear cache on activate
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames
+                    .filter(cacheName => (cacheName.startsWith("django-pwa-")))
+                    .filter(cacheName => (cacheName !== staticCacheName))
+                    .map(cacheName => caches.delete(cacheName))
+            );
+        })
+    );
+});
+
+// Serve from Cache
+self.addEventListener("fetch", event => {
+    event.respondWith(
+        caches.match(event.request)
+            .then(response => {
+                return response || fetch(event.request);
+            })
+            .catch(() => {
+                return caches.match('/offline/');
+            })
+    )
+});
