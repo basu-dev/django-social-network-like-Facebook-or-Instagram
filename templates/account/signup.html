@@ -59,12 +59,12 @@
           {%endif%}
         </div>
         <div class="form-group">
-          <input type='text' placeholder="First Name" onfocusout="checkF(this.value,'#fvalmsg','f')" onkeypress="checkF(this.value,'#fvalmsg','f')"
+          <input type='text' placeholder="First Name" onchange="checkF(this.value,'#fvalmsg','f')" onfocusout="checkF(this.value,'#fvalmsg','f')" onkeypress="checkF(this.value,'#fvalmsg','f')"
             value='{{newuser.first_name}}' class='form-control {{first_name}}' required name='first_name' id='first_name'>
           <small class="text-danger" id="fvalmsg" style="display:none">First Name Required</small>
         </div>
         <div class="form-group">
-          <input type='text' placeholder="Last Name" onfocusout="checkF(this.value,'#lvalmsg','l')" onkeypress="checkF(this.value,'#lvalmsg','l')"
+          <input type='text' placeholder="Last Name" onchange="checkF(this.value,'#lvalmsg','l')" onfocusout="checkF(this.value,'#lvalmsg','l')" onkeypress="checkF(this.value,'#lvalmsg','l')"
             value='{{newuser.last_name}}' class='form-control {{name_name}}' name='last_name' id='last_name'>
           <small class="text-danger" id="lvalmsg" style="display:none">Last Name Required</small>
           {% if formerror.name_error %}
