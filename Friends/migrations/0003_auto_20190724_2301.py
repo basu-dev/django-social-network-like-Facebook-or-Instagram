@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='profile',
-            name='contack_no',
+            name='contact_no',
             field=models.IntegerField(null=True),
         ),
         migrations.AlterField(

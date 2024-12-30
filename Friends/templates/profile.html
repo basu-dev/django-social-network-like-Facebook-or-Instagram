@@ -27,8 +27,8 @@
             </tr>
             <tr>
                 <td>Contact No.</td>
-                <th> <input type='number' class='form-control' value={{request.user.profile.contack_no}}
-                        name='contact_no'></th>
+                <th> <input type='number' class='form-control' name='contact_no' value={{request.user.profile.contact_no}}
+                        ></th>
             </tr>
         </table>
         <p class="text-center">Bio</p>
@@ -81,7 +81,7 @@
         working as <b>{{request.user.profile.job}}</b><br>
         lives in <b>{{request.user.profile.address}}.</b><br>
         <b>{{request.user.profile.age}}.</b> years old.<br>
-        contact no: <b>{{request.user.profile.contack_no}}.</b><br>
+        contact no: <b>{{request.user.profile.contact_no}}.</b><br>
         <div class="from-group">
             <button class='btn btn-sm form-control comment ' id='update_profile_btn' onclick="showupdateProfile(true)">Update Profile</button>
         </div>

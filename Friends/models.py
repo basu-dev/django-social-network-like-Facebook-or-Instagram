@@ -46,7 +46,7 @@ class Profile(models.Model):
     job = models.CharField(max_length = 100,null=True)
     bio = models.TextField(null=True)
     address = models.CharField(max_length = 100,null=True)
-    contack_no = models.IntegerField(null=True)
+    contact_no = models.IntegerField(null=True)
 def get_friend_request_list(userid):
     request_list=[]
     friend_request=Friend_request.objects.filter(receiver=userid)

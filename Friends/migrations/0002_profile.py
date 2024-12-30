@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('job', models.CharField(max_length=100)),
                 ('bio', models.TextField()),
                 ('address', models.CharField(max_length=100)),
-                ('contack_no', models.IntegerField()),
+                ('contact_no', models.IntegerField()),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

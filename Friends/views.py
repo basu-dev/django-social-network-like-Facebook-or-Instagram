@@ -158,7 +158,7 @@ def update_profile(request):
         if address:
             profile.address=address
         if contact_no:
-            profile.contack_no=contact_no
+            profile.contact_no=contact_no
         if bio:
             profile.bio=bio
         if job:
