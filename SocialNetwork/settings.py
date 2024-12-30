@@ -1,6 +1,5 @@
 
 import os
-import django_heroku
 import whitenoise
 from .secret import My_SECRET
 import cloudinary
@@ -21,7 +20,6 @@ SECRET_KEY = My_SECRET
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["sbraven.herokuapp.com"]
 ALLOWED_HOSTS = ["*"]
 
 ROOT_URLCONF = 'SocialNetwork.urls'
@@ -41,7 +39,6 @@ INSTALLED_APPS = [
     "Friends",
     'cloudinary_storage',
     'cloudinary',
-    'pwa'
     # 'gdstorage'
 ]
 
@@ -125,10 +122,6 @@ STATICFILES_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 MEDIA_URL = "/storage/"
 # MEDIA_ROOT = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-
-
-django_heroku.settings(locals())
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'sbraven',
